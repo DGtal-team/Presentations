@@ -1,0 +1,445 @@
+\documentclass[8pt]{beamer}
+%epackage[french]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{listings}
+\usepackage{times}
+\usepackage{wasysym}
+\usepackage[T1]{fontenc}
+
+
+\definecolor{mongris}{gray}{0.8}           % definition couleur grise
+\newcommand{\dd}{\footnotesize $\Diamond$}
+
+\newcommand{\HH}{ \vspace{0.5pt}\hrule}
+\newcommand{\round}[1]{\lceil #1 \rfloor}  % notation arrondi
+\def\eme{$^{\textrm{{\`e}me}}$}                  % i {\`e}me
+\def\num{n^{\circ}}                        % numero
+\def\Num{N^{\circ}}                        % Numero
+\def\sinc{\mathrm{sinc}}                   % sinus cardinal
+\def\ere{$^{\textrm{{\`e}re}}$}                % {\`e}re
+\def\er{$^{\textrm{{e}r}}$}                % {\`e}re
+\def\eg{\emph{e.g.} }                      % e.g.
+\def\ie{\emph{i.e.} }                      % i.e.
+\def\etc{\emph{etc}}                       % etc
+\def\cm{\,cm}                              % cm
+\def\met{\,m}                              % m
+\def\mm{\,mm}                              % mm
+\def\deg{$^\circ$}                         % degres
+\def\ud{\mathrm{d}}                        % pour dx dy ...
+
+
+\def \R {{\Bbb R}}
+\def \I {{\Bbb I}}
+\def \H{{\Bbb H}}
+\def \F {{\Bbb F}}
+\def \S {{\Bbb S}}
+\def \B {{\Bbb B}}
+\def \Z {{\mathbb Z}}
+\def \G {{\mathbb G}}
+\def \L {{\mathcal{L}}}
+\def \C {{\mathcal C}}
+\def \P {{\mathcal P}}
+\def \Q {{\mathcal Q}} 
+\def \E{{\mathcal E}}
+\def \D{{\mathcal D}}
+\definecolor{mybluecolor}{RGB}{116,121,149}
+
+\newcommand{\darky}[1]{{\usebeamercolor[fg]{block title example} #1}}
+\newcommand{\myblue}[1]{{\color{mybluecolor}\aut{[#1]}}}
+
+\newcommand{\ball}  {\ensuremath{B}}
+\newcommand{\AMDR}{\operatorname{AMD}}
+\newcommand{\AMD}{\operatorname{AMD}}
+
+\newcommand{\MAset}{\ensuremath{\mathrm{A\!M}} }
+\newcommand{\MAsetg}{\ensuremath{\MAset^g } }
+
+\def \PS {{\aut{Planar-4-3-SAT}}}
+\def \R {{\Bbb R}}
+\def \I {{\Bbb I}}
+\def \F {{\Bbb F}}
+\def \S {{\Bbb S}}
+\def \Z {{\mathbb Z}}
+\def \L {{\mathcal{L}}}
+\def \C {{\mathcal C}}
+\def \P {{\mathcal P}}
+\def \Q {{\mathcal Q}} 
+\def \E{{\mathcal E}}
+\def \D{{\mathcal D}}
+\def \BD {{\bar{\mathcal{D}}}}
+\def \etal {{\it et al.~}}
+\def\arc{\mbox{arc}}
+\definecolor{mongris}{gray}{0.8}          
+\newcommand{\fup}[1]{\uparrow#1\uparrow}
+\newcommand{\fdown}[1]{\downarrow#1\downarrow}
+\newcommand{\sI}[1]{\overline{\tt #1}}
+\newcommand{\iI}[1]{\underline{\tt #1}}
+\newcommand{\e}[5]{#1 & #2 & #3 & #4 & #5 \\}
+\newcommand{\eh}[5]{\text{#1} & \text{#2} &  \text{#3} &  \text{#4} & \text{#5}\\} 
+
+\usepackage{beamerthemeliris2}
+\useoutertheme{smoothbars}
+
+\title[DGtal Meeting - Kernel Package Introduction]{DGtal: Introduction to
+  DGtal Kernel}
+\subtitle{\url{http://liris.cnrs.fr/dgtal}}
+
+\author{D. Coeurjolly}
+%\author[DGtal~~~~~~~~~~~~~~~~~~~~~~~~~~David Coeurjolly]{David Coeurjolly}
+
+
+ \newcommand{\fod}[2]{\multicolumn{2}{p{3.5cm}}{\emph{#1}\dotfill} &
+      \multicolumn{2}{p{9cm}}{#2}\\}
+    \newcommand{\fodt}[4]{\emph{#1} & {\footnotesize \textsl{#2}} & #3 & \small #4\\}
+    % \newenvironment{ta}{\begin{tabular}{p{3.5cm}p{9cm}}}{\end{tabular}\\}
+    \newenvironment{ta}{\begin{tabular}{crll}}{\end{tabular}\\}
+    % \vfill
+
+
+\newcommand{\aut}[1]{{\sc #1}}             % auteur en small capsu
+
+
+%\institute%[XXX]
+%{%
+%
+%  {\bf Laboratoire d'InfoRmatique en Image et Systèmes d'information} \\
+%  { \scriptsize{
+%  LIRIS UMR 5205 CNRS/INSA de Lyon/Université Claude Bernard Lyon 1/Université Lumiè%re Lyon 2/Ecole Centrale de Lyon\\
+%  INSA de Lyon, bâtiment J. Verne\\
+%  20, Avenue Albert Einstein - 69622 Villeurbanne cedex\\
+%  \url{http://liris.cnrs.fr}}
+%  }
+%}
+
+
+
+\graphicspath{{./Figures/}, {./../images/},{./Fig/}, {./ICPR2010/},{./Antoine/images/}; {./Images/}}
+
+
+\begin{document}
+
+\small
+
+
+
+
+
+
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+
+
+%\begin{frame}
+%  \frametitle{Table of Contents}
+%  \tableofcontents
+%\end{frame}
+
+
+\begin{frame}
+  \frametitle{Package description}
+
+  \begin{block}{Should contain\HH}
+    \begin{itemize}
+    \item Fundamental objects and methods to define a topological and geometric structure on $\Z^d$
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Examples\HH}
+    \begin{itemize}
+    \item Digital space  and domains definitions
+    \item Integer types (unitary ring)
+    \item Point \& Vector
+    \item Linear Algebra
+    \item Digital sets
+    \item \ldots
+    \end{itemize}
+  \end{exampleblock}
+
+  \begin{alertblock}{Location\HH}
+    \begin{itemize}
+    \item
+      \texttt{\{DGtal\}$\backslash$src$\backslash$DGtal$\backslash$kernel$\backslash$}
+   \item   \texttt{\{DGtal\}$\backslash$tests$\backslash$DGtal$\backslash$kernel$\backslash$}
+    \end{itemize}
+  \end{alertblock}
+
+
+\end{frame}
+\lstset{
+	language=[Visual]C++,
+	keywordstyle=\bfseries\ttfamily\color[rgb]{0,0,1},
+	identifierstyle=\ttfamily,
+	commentstyle=\color[rgb]{0.133,0.645,0.133}\textit,
+	stringstyle=\ttfamily\color[rgb]{0.627,0.126,0.941},
+	showstringspaces=false,
+	basicstyle=\ttfamily,
+	numberstyle=\color[rgb]{0.2,0.2,0.2}\tiny\ttfamily,
+	numbers=left,
+	stepnumber=1,
+        frame=single,
+        framexleftmargin=13mm, 
+        xleftmargin=12mm,
+	numbersep=10pt,
+	tabsize=2,
+	breaklines=true,
+	prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+	breakatwhitespace=false,
+	aboveskip={1.5\baselineskip},
+  columns=fixed,
+  upquote=true,
+  extendedchars=true,
+% frame=single,
+% backgroundcolor=\color{lbcolor},
+}
+%\lstset{language=c++, numbers=left, tabsize=2, frame=single, breaklines=true, basicstyle=\ttfamily,
+%  numberstyle=\tiny\ttfamily, framexleftmargin=13mm, xleftmargin=12mm,keywordstyle=\color{black}\bfseries,commentstyle=\color{red}\textit}
+
+\begin{frame}[containsverbatim]
+  \frametitle{DGtal code skeleton}
+
+Things to do
+  \begin{enumerate}
+  \item Fix the dimension
+  \item Fix the Integer type (commutative ring (+,-,*))
+  \item Define the digital space DGtal::SpaceND
+  \end{enumerate}
+
+
+  
+\begin{lstlisting}
+  #include "DGtal/base/Common.h"
+  #include "DGtal/kernel/SpaceND.h"
+  {...}
+  typedef DGtal::int32_t Integer;
+  typedef DGtal::SpaceND<6, Integer> Space6;
+  
+  typedef mpz_class IntegerGMP;
+  typedef DGtal::SpaceND<6, IntegerGMP> Space6GMP;
+\end{lstlisting}
+
+Q: what's wrong with ?
+\begin{lstlisting}
+typedef DGtal::SpaceND<2, unsigned char> MySpaceUChar;
+\end{lstlisting}
+\end{frame}
+
+
+\begin{frame}[containsverbatim]
+  \frametitle{[DETAILS] Concept \& Models}
+  
+  
+  \begin{alertblock}{Answer\HH}
+    \texttt{unsigned char} does not define a ring !
+  \end{alertblock}
+
+\vspace{0.5cm}
+
+\begin{block}{}
+  Constraints on types and template parameters are defined with {\bf Concepts}
+\end{block}
+
+\vspace{0.3cm}
+
+{\tt Integer} in {\tt SpaceND} should be a model of {\tt
+  DGtal::CCommutativeRing}.
+
+\vspace{0.5cm}
+Concept Checking  with {\tt boost}
+\begin{lstlisting}
+  ...
+  //Integer must be signed to characterize a ring.
+  BOOST_CONCEPT_ASSERT(( CCommutativeRing<TInteger> ) );
+  ...
+\end{lstlisting}
+
+
+\end{frame}
+
+\begin{frame}[containsverbatim]
+  \frametitle{Digital Space}
+
+Types
+    \begin{lstlisting}
+      Integer
+      Point
+      Vector
+      RealPoint
+      RealVector
+      Subspace
+      Subcospace
+    \end{lstlisting}
+    +
+    \begin{lstlisting}
+      static Dimension dimension
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+  \frametitle{Point/Vector...}
+
+Point/Vector in a $d-$Dimensional DGtal space.
+
+\begin{itemize}
+\item arithmetic operators (*, -, ...)
+\item comparison operators (< ,>, ...)
+\item methods associate to the canonical lattice associated to points (inf, sup, isLower,...)
+\item  methods to compute various norms of Points/Vectors.
+\end{itemize}
+
+E.g.
+
+\begin{lstlisting}
+  #include "DGtal/base/Common.h"
+  #include "DGtal/kernel/SpaceND.h"
+  {...}
+  typedef DGtal::int32_t Integer;
+  typedef DGtal::SpaceND<2, Integer> Space2;
+  typedef Space2::Point Point2;
+  
+  Point2 p(12, -34);
+  Point2 q(2, -2);
+  if (p < q)
+   ...
+\end{lstlisting}
+
+
+\end{frame}
+
+
+\begin{frame}[containsverbatim]
+  \frametitle{StdDefs.h: ``Standard'' digital spaces}
+
+  Shortcuts with {\tt StdDefs.h} with namespaces {\tt Z2i} and {\tt Z3i}.
+  
+  \begin{lstlisting}
+    #include "DGtal/base/Common.h"
+    #include "DGtal/utils/StdDefs.h"
+    {...}
+    
+    DGtal::Z2i::Point p(12, -34);
+    DGtal::Z2i::Point q(2, -2);
+    if (p < q)
+    ...
+  \end{lstlisting}
+
+  \begin{lstlisting}
+    #include "DGtal/base/Common.h"
+    #include "DGtal/utils/StdDefs.h"
+    {...}
+    
+    DGtal::Z3i::Point p(12, 2, -34);
+    DGtal::Z3i::Point q(2, 0, -2);
+    if (p < q)
+    ...
+  \end{lstlisting}
+\end{frame}
+
+
+\begin{frame}[containsverbatim]
+  \frametitle{Domains}
+
+  \begin{block}{Short description\HH}
+    Defines a subset of $\Z^d$ which we are working on. 
+    \begin{itemize}
+    \item a domain is parametrized by a specific SpaceND type
+    \item must implement various {\tt Iterators} to scan the domain
+      points 
+    \end{itemize}
+  \end{block}
+
+Example: 
+
+\begin{lstlisting}
+  #include "DGtal/base/Common.h"
+  #include "DGtal/helpers/StdDefs.h"
+  #include "DGtal/kernel/domains/HyperRectDomain.h"
+  {...}
+
+  typedef HyperRectDomain<Z2i::Space> MyDomain;
+  Z2i::Point a(-3,-4);
+  Z2i::Point b(10,4);
+  MyDomain domain(a,b);
+\end{lstlisting}
+
+\begin{alertblock}{}
+More details later...
+\end{alertblock}
+
+\end{frame}
+
+\begin{frame}[containsverbatim]
+  \frametitle{Digital Sets}
+
+ \begin{block}{Short description\HH}
+    Define sets points in a given domain.
+    \begin{itemize}
+    \item several types of container (STL vector, STL set,...) which
+      can be selected via a {\tt DigitalSetSelector}
+    \item must implement methods to add/remove points
+    \item must implement {\tt Iterators} to scan the 
+      points 
+    \item ...
+    \end{itemize}
+  \end{block}
+
+Example:
+\begin{lstlisting}
+  Z2i::Point p1(  -10, -10  );
+  Z2i::Point p2(  10, 10  );
+  Z2i::Domain domain( p1, p2 );
+  typedef DigitalSetSelector < Domain, BIG_DS + HIGH_ITER_DS + HIGH_BEL_DS >::Type SpecificSet;
+  SpecificSet mySet( domain );
+
+  Z2i::Point c(  0, 0  );
+  mySet.insert( c );
+  Z2i::Point d(  5, 2  );
+  mySet.insert( d );
+\end{lstlisting}
+\end{frame}
+
+\begin{frame}[containsverbatim]
+  \frametitle{Key ideas}
+
+  \begin{alertblock}{Type Inclusion\HH}
+    \begin{center}
+      \{dimension, Integer\} $\rightarrow$  SpaceND  $\rightarrow$ Domain  $\rightarrow$ DigitalSet
+     \end{center}
+  \end{alertblock}
+
+  \begin{alertblock}{Concept checking\HH}
+  \end{alertblock}
+
+ \begin{alertblock}{StdDefs\HH}
+  \end{alertblock}
+
+
+ \begin{alertblock}{Visualisation\HH}
+   Kernel objects are DGtal stream compliant (2D and 3D).
+  \end{alertblock}
+
+e.g.
+\scriptsize
+\begin{lstlisting}
+  Point a,b;...
+  Domain domain(a,b);...
+  DigitalSet set(....); ...
+  
+  Board2D board;
+  board << domain
+        << set
+        << a
+        << b;
+        
+  board.saveSVG("myset.svg")
+\end{lstlisting}
+
+\end{frame}
+
+
+
+\end{document}
+
+
+
