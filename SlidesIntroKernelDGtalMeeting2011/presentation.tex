@@ -399,6 +399,33 @@ Example:
 \end{lstlisting}
 \end{frame}
 
+\begin{frame}
+  \frametitle{Images in DGtal}
+
+  \begin{block}{Idea\HH}
+    Mapping between Domain points and and values\\
+    Models are parametrized by a Domain type and a Value type\\
+    IO with readers, writers and SVG/PDF exports
+  \end{block}
+
+\vspace{0.5cm}
+Several image containers:
+\begin{itemize}
+\item ImageContainerBySTLVector: linearization of nD domains
+\item ImageContainerBySTLMap: (point,value) map
+\item ImageContainerByHashTree: hierarchical nD-tree with geometric
+  hashing functions.
+\end{itemize}
+
+\vspace{0.5cm}
+but also:
+\begin{itemize}
+\item ImageContainerByITKImage: use ITKImage in DGtal
+\end{itemize}
+
+\end{frame}
+
+
 \begin{frame}[containsverbatim]
   \frametitle{Key ideas}
 
