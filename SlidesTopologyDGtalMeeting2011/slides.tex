@@ -161,7 +161,7 @@
   \alertred{Genericity} $\Rightarrow$ concept \Concept{CAdjacency}
 
   \begin{itemize}
-  \item Types: \Class{Space}, \Class{Point}, \Class{Adjacency}
+  \item Inner types: \Class{Space}, \Class{Point}, \Class{Adjacency}
   \item Methods: 
     \begin{itemize}
     \item \Method{isAdjacentTo}( p1, p2 )
@@ -377,7 +377,7 @@
 %------------------------------------------------------------------------------
 
 %------------------------------------------------------------------------------
-\begin{frame}[fragile]
+\begin{frame}
   \frametitle{Example: greedy homotopic thinning 3D}
   \begin{center}
     \begin{tabular}{c}
@@ -391,6 +391,410 @@
 %------------------------------------------------------------------------------
 
 \section{Cubical cellular topology}
+
+%%%     \item cells, adjacent and incident cells, faces and cofaces
+%%%     \item signed cells, signed incidence, 
+
+%------------------------------------------------------------------------------
+\begin{frame}
+  \frametitle{Digital space as a regular cubical cell complex}
+
+  \begin{itemize}
+  \item classical combinatorial topology: cellular decomposition of
+    $\R^n$ into the regular grid topology [Khalimsky,Kovalevsky]
+
+  \item cellular complex whose cells are points, unit edges, unit squares, etc
+      
+  \item Khalimsky view as a cartesian product of $\Z^n$ with alternate
+    topologies.
+
+    \begin{center}
+    \begin{tabular}{cc}
+      \includegraphics[width=0.4\textwidth]{RegularGrid2} &
+      \includegraphics[width=0.48\textwidth]{KhalimskyIsomorphism} \\
+    \end{tabular}
+    \end{center}
+
+  \item even coordinate = closed, odd coordinate = open
+  \end{itemize}
+\end{frame}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+\begin{frame}
+  \frametitle{Model of cubical cellular space I}
+
+  \alertred{Genericity} $\Rightarrow$ concept \Concept{CCellularGridSpaceND}
+
+  Model \Class{KhalimskySpaceND<dim,Integer>}
+  \begin{itemize}
+  \item Inner types: \Class{Space}, \Class{Point}, \Class{Vector}, \ldots \\
+    \Class{Cell}, \Class{SCell}, \Class{Cells}, \Class{SCells}
+  \item the user provide a bounding box at space creation\\
+    \Method{init}( Point, Point, bool ) returns bool
+  \item cells may be signed (algebraic manipulation)
+  \item cells are black boxes: managed through methods of space
+  \end{itemize}
+\end{frame}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+\begin{frame}
+  \frametitle{Model of cubical cellular space II}
+
+  \begin{itemize}
+  \item cells are black boxes: managed through methods of space
+    \begin{itemize}
+    \item creation: \Method{uCell}, \Method{sCell}, \ldots
+    \item read/write access: \Method{uCoord}, \ldots 
+    \item sign services: \Method{signs}, \Method{unsigns}, \Method{sOpp}, 
+    \item topology services: \Method{uDim}, \Method{uIsSurfel}, \ldots
+    \item direction iterators: \Method{uDirs}, \Method{uOrthDirs},  \ldots
+    \item geometric services: \Method{uFirst}, \Method{uLast}, \Method{uTranslation}, \Method{uProjection}, \ldots
+    \item neighborhood services: \Method{uNeighborhood}, \Method{uAdjacent}, \ldots
+    \item incidence services: \Method{uIncident}, \Method{uFaces}, \ldots
+    \item direct orientation service: \Method{sDirect}, \ldots
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Example: cell creation and view}
+    \scriptsize
+    \lstset{language=c++, numbers=left, tabsize=2, frame=single, breaklines=true, basicstyle=\ttfamily,
+      numberstyle=\tiny\ttfamily, framexleftmargin=13mm, xleftmargin=12mm,keywordstyle=\color{blue}\bfseries,%
+      commentstyle=\color{red}\textit}
+    \begin{lstlisting}
+ Viewer3D viewer;
+ ...
+ KSpace K;
+ Point plow(0,0,0);  
+ Point pup(3,3,2);
+ // should return true
+ K.init( plow, pup, true );
+ // Drawing cell of dimension 3
+ Cell voxelA = K.uCell(Point(1,1,1));
+ SCell voxelB = K.sCell(Point(1,1,3));
+ viewer << voxelB << voxelA;
+ // drawing cells of dimension 2
+ SCell surfelA = K.sCell( Point( 2, 1, 3 ) ); 
+ SCell surfelB = K.sCell( Point( 1, 0, 1 ), false ); 
+ Cell surfelC = K.uCell( Point( 1, 2, 1 ) ); 
+ SCell surfelD = K.sCell( Point( 1, 1, 0 ) );
+ Cell surfelE = K.uCell( Point( 1, 1, 2 ) ); 
+ viewer << surfelA << surfelB << surfelC << surfelD << surfelE;
+    \end{lstlisting}
+    \normalsize
+\end{frame}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+\begin{frame}
+  \frametitle{Visualization of cells in 2D/3D}
+
+  You can put cells in a 2D/3D visualization stream.
+  \begin{tabular}{cc}
+  \includegraphics[width=0.4\textwidth]{fcExtraction1}&
+  \includegraphics[width=0.47\textwidth]{3DKhalimskyCells}\\
+  \end{tabular}
+  
+\end{frame}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+\begin{frame}
+  \frametitle{Why signing cells: algebraic view}
+
+  \begin{itemize}
+
+  \item<1-> {\em $r$-chain} : formal sum of $r$-cells
+    \only<1>{
+      \begin{itemize}
+	
+      \item Example : $\sum_i +o^n_i$, with $o^n_i$ $n$-cells, is a
+        digital object
+	      
+      \item Example : $\sum_i a_j s^{n-1}_j$, with $s^{n-1}_j$
+	$n-1$-cells, is a digital surface
+	      
+      \end{itemize}
+	    
+      \begin{columns}
+	\column{0.4\textwidth}
+	\begin{tabular}{r}
+	  {spels \color{green}{$+o^n_i$}} \\ 
+	  {surfels \color{blue}{$+s^{n-1}_j$}} \\
+	  {and \color{magenta}{$-s^{n-1}_j$}}
+	\end{tabular}
+	\column{0.4\textwidth}
+	\includegraphics[width=\textwidth]{Boundaries}
+      \end{columns}
+    }
+
+  \item<2-> Linear operators \alert<2>{boundary $\Delta$} and
+    \alert<2>{co-boundary $\nabla$}
+    
+    \only<2->{
+      \begin{itemize}
+      \item $\Delta$ : $r$-chain $\mapsto$ $r-1$-chain ($\equiv$ (low) incidence)
+      \item $\nabla$: $r$-chain $\mapsto$ $r+1$-chain ($\equiv$ (up) incidence)
+      \item $\Delta \Delta = 0$ and $\nabla \nabla = 0$ (Homology)
+      \end{itemize}
+    }
+    \only<2-7>{
+      \begin{columns}[c]
+	\column{0.3\textwidth}
+        
+	\begin{flushright}
+	  {$\Delta$ {\color{green}{$\sum +o^n_i$}} ? }
+	\end{flushright}
+        
+	\column{0.5\textwidth}
+	\only<2>{
+	  \includegraphics[width=\textwidth]{BdryOp-1}
+	}
+	\only<3>{
+	    \includegraphics[width=\textwidth]{BdryOp-2}
+	}
+	\only<4>{
+	  \includegraphics[width=\textwidth]{BdryOp-3}
+	}
+	\only<5>{
+	  \includegraphics[width=\textwidth]{BdryOp-4}
+	}
+	\only<6>{
+	  \includegraphics[width=\textwidth]{BdryOp-5}
+	}
+	\only<7>{
+	  \includegraphics[width=\textwidth]{BdryOp-6}
+	}
+      \end{columns}
+    }
+  \item<8-> coefficients are generally taken $\pm 1$. It is enough to
+    sign cells to design that kind of operators.
+  \end{itemize}
+
+\end{frame}
+
+%------------------------------------------------------------------------------
+\begin{frame}
+  \frametitle{Applications}
+
+  \begin{enumerate}
+    \item<1-> Any object boundary is closed.
+
+      \only<1>{
+        Boundary of a digital object $O$ = $\Delta O$
+        
+        \begin{columns}[c]
+          \column{0.5\textwidth}
+          \begin{flushright}
+            \includegraphics[width=0.6\textwidth]{fig-boundary}
+          \end{flushright}
+          \column{0.5\textwidth} 
+          \begin{block}{$\partial O$ is a closed surface.}
+            Since $\Delta \Delta = 0$, the boundary of a digital object is
+            a surface without boundary.
+          \end{block}
+        \end{columns}
+      }
+      \item<2-> Neighborhood and tracking over $\partial O$
+
+        \only<2>{
+          \begin{itemize}
+          \item Any surfel has $2n-2$ neighbors
+          \item Formal definition of the two neighbors of a surfel
+            $\sigma$, of orth. dir. $i$, along direction $j \neq i$.
+            
+            $\Delta^{\epsilon}_i \nabla^{\mu}_j \sigma$,
+            $\nabla^{\epsilon}_i \Delta^{\epsilon}_i \sigma$,
+            $\Delta^{\epsilon}_i \nabla^{-\mu}_j \sigma$ with $\mu =
+            \pm 1$ and $\epsilon = \pm 1$
+            
+            \includegraphics[height=1.5cm]{IntAdjacency}
+            \includegraphics[height=1.5cm]{SurfaceTracking2}
+            \includegraphics[height=1.5cm]{SurfaceTracking}
+            
+          \item Neighbors are oriented (\alertred{direct} or
+            \alertred{indirect} orientation)
+          \end{itemize}
+        }
+
+  \end{enumerate}
+\end{frame}
+%------------------------------------------------------------------------------
+
+\section{Digital surface topology}
+
+%------------------------------------------------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Adjacency between surfels}
+  \begin{itemize}
+  \item \Class{SurfelAdjacency<dim>} specifies interior toward
+    exterior or the reverse for each direction.
+    \scriptsize
+    \lstset{language=c++, numbers=left, tabsize=2, frame=single, breaklines=true, basicstyle=\ttfamily,
+      numberstyle=\tiny\ttfamily, framexleftmargin=13mm, xleftmargin=12mm,keywordstyle=\color{blue}\bfseries,%
+      commentstyle=\color{red}\textit}
+    \begin{lstlisting}
+SurfelAdjacency<2> sAdj1( true ); // (4,8) 
+SurfelAdjacency<2> sAdj2( false ); // (8,4)
+SurfelAdjacency<3> sAdj3( true ); // (6,18)
+SurfelAdjacency<3> sAdj4( false ); // (18,6)
+sAdj4.setAdjacency( 0, 1, true ); // hybrid 
+    \end{lstlisting}
+    \normalsize
+  \item \Class{SurfelNeighborhood<KSpace>} computes adjacent surfels
+    \begin{itemize}
+    \item initialized by \Method{init( KSpace*, SurfelAdjacency<dim>, Cell )}
+    \item surfel can be changed \Method{setSurfel}
+    \item get surrounding spels: \Method{innerSpel}(), \Method{innerAdjacentSpel}( Dimension, bool ), \ldots
+    \item get following surfels: \Method{follower1}( Dimension, bool )
+    \item get adjacent surfels: \Method{getAdjacentOnSpelSet}, \ldots
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Tracking surfels through surfel adjacencies I}
+
+  \scriptsize
+  \Class{Surfaces<KSpace>}.\Method{trackClosedBoundary}( 
+  \begin{itemize}
+    \item SCellSet \& surface, 
+    \item const KSpace \& K,
+    \item const SurfelAdjacency<KSpace::dimension> \& surfel\_adj,
+    \item const PointPredicate \& pp, 
+    \item const SCell \& start\_surfel )
+  \end{itemize}
+
+  \begin{center}
+    \includegraphics[width=0.4\textwidth]{suivi-artzy}
+  \end{center}
+\end{frame}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+\begin{frame}[fragile]
+  \frametitle{}
+
+  \scriptsize
+    \lstset{language=c++, numbers=left, tabsize=2, frame=single, breaklines=true, basicstyle=\ttfamily,
+      numberstyle=\tiny\ttfamily, framexleftmargin=13mm, xleftmargin=12mm,keywordstyle=\color{blue}\bfseries,%
+      commentstyle=\color{red}\textit}
+    \begin{lstlisting}
+SCell b;  // current surfel
+SCell bn; // neighboring surfel
+SurfelNeighborhood<KSpace> SN;
+SN.init( &K, &surfel_adj, start_surfel );
+std::queue<SCell> qbels;
+qbels.push( start_surfel );
+surface.insert( start_surfel ); // output
+while ( ! qbels.empty() ) { // For all pending bels
+  b = qbels.front();
+  qbels.pop();
+  SN.setSurfel( b );
+  for ( DirIterator q = K.sDirs( b ); q != 0; ++q ) {
+    Dimension track_dir = *q;
+    // One pass, look for direct orientation
+    if ( SN.getAdjacentOnPointPredicate( bn, pp, track_dir, K.sDirect( b, track_dir ) ) )
+    {
+      if ( surface.find( bn ) == surface.end() )
+      {
+        surface.insert( bn );
+        qbels.push( bn );
+      }
+    }
+  } // end for 
+} // end while 
+    \end{lstlisting}
+  \normalsize
+\end{frame}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Helper class Surfaces}
+
+  Provide methods for
+  \begin{itemize}
+  \item finding a bel (i.e. a surfel between inside/outside of object)
+  \item track boundaries in $n$D (closed or not)
+  \item track contours of 2D shapes
+  \item track 2D slices of $n$ shapes
+  \item extract all contours of a 2D domain
+  \item extract all boundaries of a $n$D shape
+  \item computes the whole boundary of a $n$D shape by scanning
+  \end{itemize}
+
+  (with B. Kerautret)
+
+\end{frame}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Surface tracking example}
+
+  \begin{center}
+    \includegraphics[width=0.8\textwidth]{surfelTracking}
+  \end{center}
+
+\end{frame}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Surface tracking snippet}
+
+  \scriptsize
+  \lstset{language=c++, numbers=left, tabsize=2, frame=single, breaklines=true, basicstyle=\ttfamily,
+    numberstyle=\tiny\ttfamily, framexleftmargin=13mm, xleftmargin=12mm,keywordstyle=\color{blue}\bfseries,%
+    commentstyle=\color{red}\textit}
+  \begin{lstlisting}
+  // Extract an initial boundary cell
+  Z3i::SCell aCell = Surfaces<Z3i::KSpace>::findABel(ks, set3dPredicate);
+  // Extracting all boundary surfels connected to the initial one
+  Surfaces<Z3i::KSpace>::trackBoundary( vectBdrySCellALL, ks,SAdj, set3dPredicate, aCell );
+    
+  // Extract the boundary contour associated to the initial surfel in its first direction
+  Surfaces<Z3i::KSpace>::track2DBoundary( vectBdrySCell, ks, *(ks.sDirs( aCell )), SAdj, set3dPredicate, aCell );
+  
+  // Extract the bondary contour associated to the initial surfel in its second direction
+  Surfaces<Z3i::KSpace>::track2DBoundary( vectBdrySCell2, ks, *(++(ks.sDirs( aCell ))), SAdj, set3dPredicate, aCell );  
+  \end{lstlisting}
+\end{frame}
+
+%------------------------------------------------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Getting the contour of a digitized shape}
+
+  \scriptsize
+  \lstset{language=c++, numbers=left, tabsize=2, frame=single, breaklines=true, basicstyle=\ttfamily,
+    numberstyle=\tiny\ttfamily, framexleftmargin=13mm, xleftmargin=12mm,keywordstyle=\color{blue}\bfseries,%
+    commentstyle=\color{red}\textit}
+  \begin{lstlisting}
+  // Digitizer
+  GaussDigitizer<Space,Shape> dig;  
+  dig.attach( aShape ); // attaches the shape.
+  Vector vlow(-1,-1); Vector vup(1,1);
+  dig.init( aShape.getLowerBound()+vlow, aShape.getUpperBound()+vup, h ); 
+  Domain domain = dig.getDomain();
+  // Extracts shape boundary
+  SurfelAdjacency<KSpace::dimension> SAdj( true );
+  SCell bel = Surfaces<KSpace>::findABel( K, dig, 10000 );
+  // Getting the consecutive surfels of the 2D boundary
+  std::vector<Point> points;
+  Surfaces<KSpace>::track2DBoundaryPoints( points, K, SAdj, dig, bel );
+  // Create GridCurve
+  GridCurve<KSpace> gridcurve;
+  gridcurve.initFromVector( points );
+  \end{lstlisting}
+\end{frame}
 
 %% %------------------------------------------------------------------------------
 %% \begin{frame}
@@ -411,6 +815,22 @@
 
 %% \end{frame}
 %% %------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+\begin{frame}%[allowframebreaks]
+  \frametitle{To go further}
+
+  On-line user guide in DGtal documentation
+  \begin{itemize}
+  \item Topology Package
+    \begin{itemize}
+    \item Digital topology and digital objects
+    \item Cellular grid space and topology, cells, digital surfaces\\
+    \end{itemize}
+  \end{itemize}
+  (nicely illustration in 3D, thanks to B. Kerautret)
+\end{frame}
+
 
 %------------------------------------------------------------------------------
 \begin{frame}%[allowframebreaks]
@@ -439,5 +859,34 @@
   \end{enumerate}
 \end{frame}
 %------------------------------------------------------------------------------
+
+%%% %------------------------------------------------------------------------------
+%%% \begin{frame}[fragile]
+%%%   \frametitle{Insight into signed cell mechanism}
+
+%%%   \scriptsize
+%%%   \Class{SurfelNeighborhood<KSpace>}.\Method{getAdjacentOnDigitalSet}( SCell \& adj\_surfel, const DigitalSet \& obj, Dimension track\_dir, bool pos )
+
+%%%   \lstset{language=c++, numbers=left, tabsize=2, frame=single, breaklines=true, basicstyle=\ttfamily,
+%%%     numberstyle=\tiny\ttfamily, framexleftmargin=13mm, xleftmargin=12mm,keywordstyle=\color{blue}\bfseries,%
+%%%     commentstyle=\color{red}\textit}
+%%%   \begin{lstlisting}
+%%%   Point inner_spel_pt = mySpace->sCoords(innerSpel());
+%%%   ...
+%%%   // Check type of surfel adjacency.
+%%%   if ( mySurfelAdj->getAdjacency(orthDir(), track_dir))
+%%%     { // interior to exterior. Check first next bel.
+%%%       if ( obj.find( mySpace->sCoords( innerAdjacentSpel( track_dir, pos ) ) ) == obj.end() )
+%%%         adj_surfel = follower1( track_dir, pos );
+%%%       // Check second next bel.
+%%%       else if ( obj.find( mySpace->sCoords( outerAdjacentSpel( track_dir, pos ) ) ) == obj.end() )
+%%%         adj_surfel = follower2( track_dir, pos ); 
+%%%       else // The third one is then the right one.
+%%%         adj_surfel = follower3( track_dir, pos ); 
+%%%     }
+%%%   \end{lstlisting}
+%%%   \normalsize
+%%% \end{frame}
+
 
 \end{document}
