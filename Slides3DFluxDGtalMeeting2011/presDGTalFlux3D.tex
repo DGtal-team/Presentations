@@ -1,0 +1,122 @@
+\documentclass[10pt,dvips]{beamer}
+\xdefinecolor{structure}{rgb}{0.9,0.3,0.3}
+\xdefinecolor{side}{rgb}{0.2,0.3,0.7}
+\xdefinecolor{fond}{rgb}{0.85,0.85,0.98}
+
+\usepackage[T1]{fontenc}
+\usepackage{pst-all}
+\usepackage{epsfig}
+\usepackage[francais]{babel}
+%\usepackage{multicol}
+%\usepackage{colortab}
+\usepackage{alltt}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{psfrag}
+\usepackage{url}
+%\usepackage[vlined]{algorithm2e}
+\usepackage{array}
+
+
+%\usepackage{subfigure}
+%\usepackage{multirow}
+\usepackage{multimedia}
+%\input{macros.tex}
+
+\newrgbcolor{brick}{0.6 0 0}
+\newrgbcolor{lgray}{0.9 0.9 0.9}
+\newrgbcolor{dgray}{0.45 0.45 0.45}
+\newrgbcolor{links}{0. 0. 0.60}
+\newlength{\myHeight}
+
+\newcommand{\dcite}[1]{{\color{blue}{\cite{#1}}}}
+
+
+
+\setbeamertemplate{navigation symbols}{}
+
+\beamertemplatetransparentcovereddynamic
+
+
+
+\definecolor{lg}{RGB}{220,220,220}
+\definecolor{lred}{RGB}{250,150,150}
+\definecolor{lblue}{RGB}{150,150,250}
+\definecolor{dblue}{RGB}{30,30,100}
+\definecolor{dgreen}{RGB}{30,100,30}
+
+
+
+\newcommand{\citeb}[1]{\mbox{\em \color{blue}{\cite{#1}}}}
+\newcommand{\Cite}[1]{\mbox{\em \color{blue}{ #1 }}}
+\newcommand{\Etal}[0]{\mbox{\em et. al.}}
+
+\newcommand{\AlertB}[1]{{\color{blue} #1}}
+\newcommand{\AlertM}[1]{{\color{mmagenta} #1}}
+\newcommand{\AlertR}[1]{{\color{brick} #1}}
+
+
+
+\newcommand{\class}[1]{{\color{brick}{\texttt{#1}}}}
+
+
+
+
+
+\setbeamercovered{transparent}
+
+
+\newcommand{\surligne}[2]{%
+\colorbox{#1}{#2}}
+
+
+\newcommand{\ligne}[1]{
+  \rput#1{\psline[linewidth=0.05,linecolor=black,fillstyle=solid](0.0,0.0)(0.3,0.0)}}
+\newcommand{\point}[1]{
+  \rput#1{\psline[linewidth=0.1,linecolor=black,fillstyle=solid](0.0,0.0)(0.1,0.0)}}
+
+
+
+\beamertemplateshadingbackground{gray!1}{structure!5}
+\usetheme{CambridgeUS}
+
+
+
+
+
+\begin{document}
+
+
+
+\mode<presentation>
+
+\title[Flux, visualisation 3D]{Flux, visualisation 3D }
+\author[B. Kerautret ]{Bertrand Kerautret\inst{1,2} }
+\date[2$^{iem}$Journées DGtal-2011 ]{{\small{Journées DGtal, 29 aout-2 septembre 2011 }}}
+\institute[LORIA-LAMA]{\inst{1} LORIA - Nancy University \\ 
+  \inst{2} LAMA - University of Savoie }
+
+
+\frame{
+\titlepage
+\rput(6,0){\includegraphics[width=3.5cm]{Images/dgtal.eps}} 
+
+}
+
+
+
+\input{1intro}
+
+\input{2visu3D}
+
+\input{3futur}
+
+
+
+
+
+\end{document}
+
+
+

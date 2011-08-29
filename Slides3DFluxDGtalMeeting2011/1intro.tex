@@ -1,0 +1,111 @@
+
+
+\section{1. Visualisation 3D: contexte, orientation}
+
+
+\subsection{Contexte}
+
+
+\begin{frame}[t]
+\frametitle{1. Visualisation 3D: contexte}
+\vspace{-0.3cm}
+\begin{block}{Premier \textit{DGtal meeting} (4 janvier 2011)}
+\begin{itemize}
+\item Outils de visualisation pour les primitives 2D.
+\item Mécanisme simple permettant de montrer des résultats liés à différents modules:  
+\begin{itemize}
+\item Topologie (Jacques-Olivier lachaud)
+\item Géométrie (David Coeurjolly, Tristan Roussillon)
+\item Domaine (Guillaume Damian)
+\end{itemize}
+\end{itemize}
+\end{block}
+
+\visible<2>{\rput(6,-1.7){
+\begin{minipage}{\textwidth}
+\begin{center}
+\begin{tabular}{ccc}
+\includegraphics[height=0.15\textwidth]{Images/gallerie1.eps}&
+\includegraphics[height=0.15\textwidth]{Images/gallerie2.eps}&
+\includegraphics[height=0.15\textwidth]{Images/gallerie3.eps}\\
+$\vcenter{ \hbox{\includegraphics[height=0.15\textwidth]{Images/gallerie4.eps}}}$ &
+$\vcenter{ \hbox{\includegraphics[height=0.1\textwidth]{Images/gallerie5.eps}}}$ &
+$\vcenter{ \hbox{\includegraphics[height=0.15\textwidth]{Images/gallerie6.eps}}}$ \\
+\end{tabular}
+\end{center}
+\end{minipage}}}
+\vspace{-0.3cm}
+
+\visible<3->{
+\begin{block}{Objectifs pour la visualisation  3D}
+\begin{itemize}
+\item Garder un système simple par flux (même primitive).
+\item Manipulation, édition d'objet 3D. 
+\item Plusieurs directions: 
+\begin{itemize}
+\item Bertrand Kerautret: visualisation basée \textit{OpenGL, LibQGLviewer}
+\item Jacques-Olivier Lachaud: visualisation basée \textit{Open Inventor SoQT}
+\item Martial Tola: visualisation (2D/3D) basée sur \textit{CAIRO \footnote{Bibliothèque de rendu vectoriel: \url{http://cairographics.org}}}  
+
+
+\end{itemize}
+\end{itemize}
+
+\end{block}
+}
+\end{frame}
+
+
+
+
+
+
+
+
+
+\subsection{Orientation}
+
+
+\begin{frame}[t]
+
+\frametitle{1. Visualisation 3D: objectif}
+
+{\large{Inspiré du mécanisme de \texttt{Board2D} (initialement basé sur \texttt{LibBoard}\footnote{(Copyleft, LGPL) 2007 Sébastien Fourey - GREYC ENSICAEN}) }}
+
+\begin{block}{}
+\begin{itemize}
+\item Chaque primitive capable de s'auto dessiner. 
+\item Vérifier le concept \texttt{CDrawableWithBoard2D} (concept vérifié avec \textit{\textcolor<3>{red}{boost}}).  
+\item<4-> Mécanisme de ``flux'' avec l'opérateur \texttt{< \hspace{-0.2cm}<}.
+\item<6-> Exportation en différents formats (pdf, eps, fig, gif, png). 
+\end{itemize}
+\end{block}
+
+
+\visible<2,3>{%
+\begin{footnotesize}
+\begin{itemize}
+\item \texttt{std::string styleName() const}
+\item \texttt{DrawableWithBoard2D* defaultStyle(const std::string \& mode = "" ) const}
+\item \texttt{void selfDraw( Board2D \& ) const}
+\item<3> \texttt{\color{red}{BOOST\_CONCEPT\_ASSERT((CDrawableWithBoard2D<TDrawableWithBoard2D>));}}
+\end{itemize}
+\end{footnotesize}
+
+}
+
+\visible<5->{%
+\visible<6,7>{\rput(3;6){\includegraphics[width=6cm]{Images/codeExBoard2D.eps}}}%
+\visible<7>{\rput(9;4){\includegraphics[width=5cm]{Images/dgtalboard-1-points.eps}}}%
+\visible<5>{\rput(3;9){
+\begin{minipage}{0.5\textwidth}
+\begin{itemize}
+\item[] \texttt{\footnotesize{Board2D board;}} 
+\item[] \texttt{\footnotesize{board \texttt{< \hspace{-0.2cm}<} object;}} 
+\end{itemize}%
+\end{minipage}}}
+}%
+
+\end{frame}
+
+

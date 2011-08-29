@@ -1,0 +1,59 @@
+
+\section{4. Travail restant}
+
+
+
+\begin{frame}[t]
+\frametitle{4. Travail restant}
+
+\begin{itemize}
+\item Modifier le principe \texttt{``SelfDraw()''}. 
+\item Terminer l'harmonisation entre \class{Board2DTo3D} et \class{Viewer3D}.
+\item Rajouter des modèles de réflectance dans \class{Board2DTo3D}.
+\item Corriger partiellement l'export vectoriel basé \class{Viewer3D} (de
+  LibQGLViewer: bibliothèque \texttt{VRender} de Cyril Sole).
+\end{itemize}
+\end{frame}
+
+
+
+
+
+\begin{frame}
+  \frametitle{4. Travail restant: visu en PDF 3D ? :(issue \#35) }
+
+\begin{block}{Export en format U3D :}
+  \begin{center}
+\only<1> {
+    \includemovie[
+    poster,
+    label=example.u3d,
+    text=(example.u3d : click to display),
+    3Daac=60.000000, 3Droll=0.000000, 3Dc2c=-3295.047852 248.228210 -1028.702759, 
+    3Droo=3460.807129, 3Dcoo=-3.445007 -0.000031 1.349976,
+    3Dlights=CAD,
+    ]{.5\linewidth}{.5\linewidth}{example.u3d} }%%
+\only<2>{
+\begin{semiverbatim}
+    poster,label=example.u3d, 
+
+    text=(example.u3d : click to display),
+
+    3Daac=60.000000, 3Droll=0.000000, 3Dc2c=-3295.047852 
+    
+    248.228210 -1028.702759, 3Droo=3460.807129, 
+    
+    3Dcoo=-3.445007 -0.000031 1.349976,
+
+    3Dlights=CAD,
+
+    ]{3cm}{3cm}{example.u3d}
+\end{semiverbatim}}
+
+  \end{center}
+
+\end{block}
+
+\end{frame}
+
+
