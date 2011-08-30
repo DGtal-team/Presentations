@@ -1,0 +1,5 @@
+\beamer@endinputifotherversion {3.07pt}
+\beamer@sectionintoc {1}{Iterators/Circulators and Ranges}{3}{0}{1}
+\beamer@sectionintoc {2}{Classes}{8}{0}{2}
+\beamer@sectionintoc {3}{Segments and segment computers}{18}{0}{3}
+\beamer@sectionintoc {4}{Segmentations}{24}{0}{4}

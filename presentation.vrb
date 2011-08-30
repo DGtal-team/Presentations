@@ -1,0 +1,25 @@
+\frametitle {Segmentation of subranges}
+
+\begin{verbatim}
+
+theSegmentation.setSubRange(beginIt, endIt);
+theSegmentation.setMode("myMode");
+
+\end{verbatim}
+
+\begin{itemize}
+ \item greedy
+  \begin{itemize}
+   \item "Truncate" (default)
+   \item "Truncate+1"
+   \item "DoNotTruncate"
+  \end{itemize}
+ \item saturated
+  \begin{itemize}
+   \item "First",
+   \item "MostCentered" (default)
+   \item "Last"
+  \end{itemize}
+\end{itemize}
+
+
