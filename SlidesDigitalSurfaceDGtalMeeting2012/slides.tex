@@ -1,0 +1,170 @@
+\documentclass[pdftex,francais]{beamer}
+
+% Copyright 2004 by Till Tantau <tantau@users.sourceforge.net>.
+%
+% This file can be redistributed and/or modified under
+% the terms of the GNU Public License, version 2.
+
+%% \ifx\themename\undefined
+%%   \def\themename{default}
+%% \fi
+
+\usetheme{lama}
+%\usetheme{Madrid}
+%\usecolortheme{crane}
+
+\usepackage{multirow}
+\usepackage[latin1]{inputenc}           %%%  
+\usepackage[T1]{fontenc}                %%%
+\usepackage[francais]{babel}            %%%
+
+\usepackage{multimedia}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usepackage{listings}
+
+%\newtheorem{theorem}{Théorème}
+
+%\setbeamercovered{transparent}
+
+\title[Digital surfaces in DGtal]{Digital surfaces in DGtal\\
+     Topology module (since 0.5)
+}
+
+\author[J.-O. Lachaud]{Jacques-Olivier Lachaud}
+
+\date{DGtal Meeting, june 2012}
+
+
+\graphicspath{{Figures/},{Images/},{Graphs/}}
+
+%%% \AtBeginSection[]
+%%% {
+%%%   \begin{frame}<beamer>
+%%%     \frametitle{Plan}
+%%%     \tableofcontents[currentsection] %,currentsubsection]
+%%%   \end{frame}
+%%% }
+
+\input{macros}
+
+\setbeamercolor{qcolorb}{fg={blue!20!black},bg={blue!15!white}}
+\setbeamercolor{qcolorub}{fg={blue!10!black},bg={blue!30!white}}
+\setbeamercolor{qcolorlb}{fg={blue!20!black},bg={blue!8!white}}
+\setbeamercolor{qcolorulb}{fg={blue!10!black},bg={blue!40!white}}
+\setbeamercolor{qcolorg}{fg={green!20!black},bg={green!15!white}}
+\setbeamercolor{qcolorug}{fg={green!10!black},bg={green!30!white}}
+\setbeamercolor{qcolorlg}{fg={green!20!black},bg={green!8!white}}
+\setbeamercolor{qcolorulg}{fg={green!10!black},bg={green!40!white}}
+\setbeamercolor{qcolorr}{fg={red!20!black},bg={red!15!white}}
+\setbeamercolor{qcolorur}{fg={red!10!black},bg={red!30!white}}
+\setbeamercolor{qcolorlr}{fg={red!20!black},bg={red!8!white}}
+\setbeamercolor{qcolorulr}{fg={red!10!black},bg={red!40!white}}
+\newenvironment{myblockbluish}[2]%
+	       {\begin{beamerboxesrounded}[lower=qcolorb,upper=qcolorub,width=#1,shadow=true]{#2}}{\end{beamerboxesrounded}}
+\newenvironment{myblocklbluish}[2]%
+	       {\begin{beamerboxesrounded}[lower=qcolorlb,upper=qcolorulb,width=#1,shadow=true]{#2}}{\end{beamerboxesrounded}}
+\newenvironment{myblockgreenish}[2]%
+	       {\begin{beamerboxesrounded}[lower=qcolorg,upper=qcolorug,width=#1,shadow=true]{#2}}{\end{beamerboxesrounded}}
+\newenvironment{myblocklgreenish}[2]%
+	       {\begin{beamerboxesrounded}[lower=qcolorlg,upper=qcolorulg,width=#1,shadow=true]{#2}}{\end{beamerboxesrounded}}
+\newenvironment{myblockredish}[2]%
+	       {\begin{beamerboxesrounded}[lower=qcolorr,upper=qcolorur,width=#1
+,shadow=true]{#2}}{\end{beamerboxesrounded}}
+\newenvironment{myblocklredish}[2]%
+	       {\begin{beamerboxesrounded}[lower=qcolorlr,upper=qcolorulr,width=#1,shadow=true]{#2}}{\end{beamerboxesrounded}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\newlength{\unquart}
+\setlength{\unquart}{0.21\textwidth}
+
+%------------------------------------------------------------------------------
+\begin{frame}
+  \titlepage
+\end{frame}
+%------------------------------------------------------------------------------
+
+\section{Introduction}
+
+%------------------------------------------------------------------------------
+\begin{frame}%[allowframebreaks]
+  \frametitle{Available in DGtal 0.5}
+  
+  \begin{enumerate}
+  \item classical digital topology
+    \begin{itemize}
+    \item Arbitrary adjacencies in $\Z^n$, but also in subdomains
+    \item Digital topology = couple of adjacencies (Rosenfeld)
+    \item Object = Topology + Set
+    \item Operations: neighborhoods, border, connectedness and connected
+      components, decomposition into digital layers, simple points
+    \end{itemize}
+
+    \only<1>{
+      \begin{tabular}{cc}
+        \includegraphics[width=0.4\textwidth]{object-3d-18-6} & 
+        \includegraphics[width=0.3\textwidth]{thinning-3d} \\
+        Adjacencies &
+        thinning in (6,26) \\
+      \end{tabular}
+    }
+
+    \only<2-3>{
+    \item cubical cellular topology
+      \begin{itemize}
+      \item cells, adjacent and incident cells, faces and cofaces
+      \item signed cells, signed incidence, 
+      \end{itemize}
+    }
+    \only<3>{
+    \item digital surface topology
+      \begin{itemize}
+      \item surfels, surfel adjacency, surfel neighborhood
+      \item surface tracking (normal, fast), contour tracking in $n$D
+      \end{itemize}
+    }
+  \end{enumerate}
+\end{frame}
+%------------------------------------------------------------------------------
+
+
+%------------------------------------------------------------------------------
+\begin{frame}[squeeze]%[allowframebreaks]
+  \frametitle{Package description}
+
+  \begin{myblocklbluish}{\textwidth}{Should contain}
+    \begin{itemize}
+      \small
+    \item classical digital topology {\em à la} Rosenfeld
+    \item cartesian cellular topology
+    \item digital surface topology {\em à la} Herman
+    \item must be the base block of geometric algorithms
+    \end{itemize}
+  \end{myblocklbluish}
+  \begin{myblocklgreenish}{\textwidth}{Examples}
+    \begin{itemize}
+      \small
+    \item adjacencies, connected components, simple points, thinning
+    \item cells, boundary operators, incidence, opening, closing
+    \item contours, surfel adjacency, surface tracking
+    \item topological invariants
+    \end{itemize}
+  \end{myblocklgreenish}
+  \begin{myblocklredish}{\textwidth}{Location}
+    \begin{itemize}
+      \small
+    \item \texttt{\{DGtal\}/src/DGtal/topology}
+    \item \texttt{\{DGtal\}/src/DGtal/helpers}
+    \item \texttt{\{DGtal\}/tests/topology}
+    \end{itemize}
+  \end{myblocklredish}
+
+\end{frame}
+%------------------------------------------------------------------------------
+
+
+\end{document}
