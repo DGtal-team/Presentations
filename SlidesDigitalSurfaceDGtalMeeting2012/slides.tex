@@ -77,6 +77,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  \lstset{language=c++, numbers=left, tabsize=2, frame=single, breaklines=true, basicstyle=\ttfamily\scriptsize,
+     numberstyle=\tiny\ttfamily, framexleftmargin=13mm, xleftmargin=12mm,keywordstyle=\color{blue}\bfseries,%
+     commentstyle=\sffamily\color{red}}
+
 \begin{document}
 
 \newlength{\unquart}
@@ -88,23 +92,26 @@
 \end{frame}
 %------------------------------------------------------------------------------
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %------------------------------------------------------------------------------
 \begin{frame}%[allowframebreaks]
-  \frametitle{Available in DGtal 0.5}
+  \frametitle{Package Topology, available in DGtal 0.4}
   
   \begin{enumerate}
-  \item classical digital topology
-    \begin{itemize}
-    \item Arbitrary adjacencies in $\Z^n$, but also in subdomains
-    \item Digital topology = couple of adjacencies (Rosenfeld)
-    \item Object = Topology + Set
-    \item Operations: neighborhoods, border, connectedness and connected
-      components, decomposition into digital layers, simple points
-    \end{itemize}
+  \item classical digital topology ({\em \`a la Rosenfeld})
 
     \only<1>{
+      \begin{itemize}
+      \item Arbitrary adjacencies in $\Z^n$, but also in subdomains
+      \item Digital topology = couple of adjacencies (Rosenfeld)
+      \item Object = Topology + Set
+      \item Operations: neighborhoods, border, connectedness and connected
+        components, decomposition into digital layers, simple points
+      \end{itemize}
+      
       \begin{tabular}{cc}
         \includegraphics[width=0.4\textwidth]{object-3d-18-6} & 
         \includegraphics[width=0.3\textwidth]{thinning-3d} \\
@@ -114,23 +121,199 @@
     }
 
     \only<2-3>{
-    \item cubical cellular topology
-      \begin{itemize}
-      \item cells, adjacent and incident cells, faces and cofaces
-      \item signed cells, signed incidence, 
-      \end{itemize}
+    \item cubical cellular topology + algebraic topology
+      \only<2>{
+        \begin{itemize}
+        \item cells, adjacent and incident cells, faces and cofaces
+        \item signed cells, signed incidence, boundary operators
+        \end{itemize}
+
+        \begin{tabular}{cc}
+          \includegraphics[width=0.4\textwidth]{3DKhalimskyCells}&
+	  \includegraphics[width=0.4\textwidth]{Boundaries}\\
+        \end{tabular}
+      }
     }
     \only<3>{
-    \item digital surface topology
+    \item digital surface topology ({\em \`a la Herman})
       \begin{itemize}
       \item surfels, surfel adjacency, surfel neighborhood
       \item surface tracking (normal, fast), contour tracking in $n$D
       \end{itemize}
+
+      \begin{tabular}{cc}
+        \includegraphics[width=0.4\textwidth]{suivi-artzy} &
+        \includegraphics[width=0.4\textwidth]{surfelTracking} \\
+      \end{tabular}
     }
   \end{enumerate}
 \end{frame}
 %------------------------------------------------------------------------------
 
+%------------------------------------------------------------------------------
+\begin{frame}%[allowframebreaks]
+  \frametitle{Package Topology, \alertred{new} in DGtal 0.5}
+  
+  \begin{myblocklbluish}{\textwidth}{Digital Surface}
+    $\begin{array}{c}
+      \left.
+      \begin{minipage}{0.5\textwidth}
+        \begin{itemize}
+        \item[] surfels / signed $n-1$-cells
+        \item[$+$] adjacencies between surfels
+        \end{itemize}
+      \end{minipage}
+      \right\}
+      \begin{minipage}{0.45\textwidth}
+        \begin{itemize}
+        \item kind of "dual" graph
+        \item kind of manifold
+        \end{itemize}
+      \end{minipage}
+    \end{array}$
+  \end{myblocklbluish}
+
+  \only<1>{
+    \mbox{~}\vspace{5mm}\\
+
+    \begin{tabular}{ccc}
+      \includegraphics[height=1.5cm]{IntAdjacency}&
+      \includegraphics[height=1.5cm]{SurfaceTracking2}&
+      \includegraphics[height=1.5cm]{SurfaceTracking}\\
+    \end{tabular}
+  }
+
+  \only<2>{
+    \begin{enumerate}
+    \item High-level {\tt DigitalSurface} class for representing any
+      kind of digital surface
+    \item Many container classes for digital surfaces
+      \begin{itemize}
+      \item boundary of digital shape
+      \item boundary of implicitly defined shape
+      \item set of surfels
+      \item implicitly defined set of surfels
+      \item light containers
+      \end{itemize}
+    \item a {\tt DigitalSurface} is a graph
+    \item a {\tt DigitalSurface} is a combinatorial surface (with umbrellas)
+    \end{enumerate}
+  }
+
+\end{frame}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+\begin{frame}%[allowframebreaks]
+  \frametitle{Direct applications}
+
+  \begin{itemize}
+    \item marching cubes algorithm
+    \item tracking implicit polynomial surfaces
+    \item representing boundary of regions and frontier between regions
+    \item breadth-first visiting on surfaces
+    \item estimating normals on surfaces
+  \end{itemize}
+
+  \begin{center}
+  \begin{tabular}{ccccc}
+    \includegraphics[width=0.18\textwidth]{mc-lobster-40}&
+    \includegraphics[width=0.18\textwidth]{polynomial-fun2}&
+    \includegraphics[width=0.18\textwidth]{digital-surface-intersecting-balls}&
+    \includegraphics[width=0.18\textwidth]{digital-surface-bfv-lobster}&
+    \includegraphics[width=0.18\textwidth]{normal-estimation}\\
+  \end{tabular}
+  \end{center}
+\end{frame}
+%------------------------------------------------------------------------------
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Principles and uses}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%------------------------------------------------------------------------------
+\begin{frame}[fragile]%[allowframebreaks]
+  \frametitle{Necessary concepts and classes for digital surfaces}
+
+  \small 
+  One must choose
+  \begin{itemize}
+  \item the representation of cellular grid space: model of
+    \href{http://liris.cnrs.fr/dgtal/doc/nightly/structDGtal_1_1CCellularGridSpaceND.html}{\texttt{\alertred{CCellularGridSpaceND}}}\\
+    e.g. \href{http://liris.cnrs.fr/dgtal/doc/nightly/classDGtal_1_1KhalimskySpaceND.html}{\texttt{\alert{KhalimskySpaceND}$<N,int>$}}, \texttt{\alert{Z2i::KSpace}}, \texttt{\alert{Z3i::KSpace}}
+
+  \item the kind of adjacency between surfels, \href{http://liris.cnrs.fr/dgtal/doc/nightly/classDGtal_1_1SurfelAdjacency.html}{\texttt{\alert{SurfelAdjacency}$<N>$}}
+
+  \item the kind of surface container: model of \href{http://liris.cnrs.fr/dgtal/doc/nightly/structDGtal_1_1CDigitalSurfaceContainer.html}{\texttt{\alertred{CDigitalSurfaceContainer}}}
+
+  \end{itemize}
+  
+  \begin{lstlisting}
+typedef Z3i::Point Point; // 3D digital point
+typedef Z3i::Domain Domain; 
+typedef Z3i::DigitalSet DigitalSet; // a set of digital points
+typedef Z3i::KSpace KSpace; // 3D cellular grid space
+typedef SurfelAdjacency<3> SAdj; // surfel adjacency.
+typedef DigitalSetBoundary<KSpace,DigitalSet> Container; // kind of surface container
+typedef DigitalSurface<Container> MyDigSurf; // concrete digital surface
+  \end{lstlisting}
+%% KSpace K; ...              // the cellular space
+%% DigitalSet someShape(...); // the shape
+%% SAdj surfAdj( true );      // the adjacency
+%% Container surfContainer( K, someShape, surfAdj );
+%% MyDigSurf digSurf( surfContainer );
+%%   \end{lstlisting}
+
+\end{frame}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+\begin{frame}[fragile]%[allowframebreaks]
+  \frametitle{Concrete instanciations for digital surfaces}
+
+  Then, the chosen types are instantiated. Here \\
+  digital surface = boundary of two intersecting balls
+  \begin{lstlisting}
+  Point p1( -20, -20, -20 ), p2( 20, 20, 20 );
+  KSpace K; K.init( p1, p2, true ); // init space
+  DigitalSet someShape( Domain( p1, p2 ) );
+  Shapes<Domain>::addNorm2Ball( someShape, Point(-3,0,0), 4 );
+  Shapes<Domain>::addNorm2Ball( someShape, Point(3,0,0), 4 );
+  SAdj surfAdj( true );      // the adjacency
+  Container surfContainer( K, someShape, surfAdj );
+  MyDigSurf digSurf( surfContainer ); // digital surface
+  \end{lstlisting}
+  
+  Using the digital surface (displays 518):
+  \begin{lstlisting}
+  cout << "- nb surfels/vertices = "
+       << digSurf.size() << endl;
+  \end{lstlisting}
+  
+
+\end{frame}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+\begin{frame}[fragile]%[allowframebreaks]
+  \frametitle{How to use digital surfaces (I)}
+
+  Just enumerating its elements...
+  \begin{lstlisting}
+  QApplication application( argc, argv );
+  Viewer3D viewer; // QGL viewer
+  viewer.show(); 
+  for( MyDigSurf::ConstIterator it = digSurf.begin(),
+	   itend = digSurf.end(); it != itend; ++it )
+    viewer << *it;
+  viewer << Viewer3D::updateDisplay;
+  return application.exec();
+  \end{lstlisting}
+
+  \includegraphics[width=0.5\textwidth]{two-balls}
+\end{frame}
+%------------------------------------------------------------------------------
 
 %------------------------------------------------------------------------------
 \begin{frame}[squeeze]%[allowframebreaks]
