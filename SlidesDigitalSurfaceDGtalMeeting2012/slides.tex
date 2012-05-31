@@ -365,7 +365,7 @@ typedef DigitalSurface<Container> MyDigSurf; // concrete digital surface
             \item in $n$-D
             \item vertices = $n-1$-cells
             \item edges $\approx$ $n-2$-cells
-            \item faces = $\approx$ $n-3$-cells
+            \item faces $\approx$ $n-3$-cells
             \end{itemize}
           }
           \only<2>{
@@ -398,6 +398,75 @@ FaceSet     allOpenFaces() ...
 \end{frame}
 %------------------------------------------------------------------------------
 
+%------------------------------------------------------------------------------
+\begin{frame}[fragile]%[allowframebreaks]
+  \frametitle{How to use digital surfaces (IV)}
+
+  Getting the faces and outputing their vertices
+
+  \lstset{language=c++, numbers=left, tabsize=2, frame=single, breaklines=true, basicstyle=\ttfamily\tiny,
+     numberstyle=\tiny\ttfamily, framexleftmargin=13mm, xleftmargin=12mm,keywordstyle=\color{blue}\bfseries,%
+     commentstyle=\sffamily\color{red}}
+  \lstset{emph={begin,end,FaceSet,VertexRange,allClosedFaces,verticesAroundFace},emphstyle=\color{MyGreen}}
+
+  \begin{lstlisting}
+  typedef typename FaceSet::const_iterator FaceSetIter;
+  typedef typename VertexRange::const_iterator VertexRangeIter;
+  FaceSet faces = digSurf.allClosedFaces();
+  for ( FaceSetIter itf = faces.begin(), 
+        itf_end = faces.end(); itf != itf_end; ++itf )
+    {
+      Face face = *itf;
+      out << face.nbVertices;
+      VertexRange vtcs = digSurf.verticesAroundFace( face );
+      for ( VertexRangeIter itv = vtcs.begin(), 
+            itv_end = vtcs.end(); itv != itv_end; ++itv )
+        out << " " << index[ *itv ];
+      out << std::endl;
+    }
+  \end{lstlisting}
+
+  \begin{columns}
+    \begin{column}{0.63\textwidth}
+      e.g. export in OFF format
+      \lstset{emph={exportSurfaceAs3DOFF,exportEmbeddedSurfaceAs3DOFF},emphstyle=\color{MyGreen}}
+   \begin{lstlisting}
+void exportSurfaceAs3DOFF ( std::ostream & out )
+
+template <typename CellEmbedder>
+void exportEmbeddedSurfaceAs3DOFF
+( std::ostream & out, const CellEmbedder & cembedder ) 
+   \end{lstlisting}
+    \end{column}
+    \begin{column}{0.3\textwidth}
+      \includegraphics[width=\textwidth]{digital-surface-mc-cat10}
+    \end{column}
+  \end{columns}
+
+\end{frame}
+%------------------------------------------------------------------------------
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Containers}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%------------------------------------------------------------------------------
+\begin{frame}[squeeze]%[allowframebreaks]
+  \frametitle{Diversity of digital surfaces}
+
+  \begin{itemize}
+  \item may be open or closed
+  \item may be connected or not
+  \item may be defined explicitly with their surfels
+  \item may be defined implicitly as the boundary of some shape
+  \item the surfels may be listed or known only through a predicate
+  \item the shape may be described by its points or known only through a predicate
+  \item the surface may be big or infinite so that only lazy extraction is reasonnable
+  \end{itemize}
+
+  You can process them with the same object {\tt \alert{DigitalSurface}$<$T$>$}
+\end{frame}
+%------------------------------------------------------------------------------
 %------------------------------------------------------------------------------
 \begin{frame}[squeeze]%[allowframebreaks]
   \frametitle{Package description}
