@@ -383,6 +383,18 @@ typedef DigitalSurface<Container> MyDigSurf; // concrete digital surface
       \end{columns}
     \end{myblocklbluish}
 
+    %\visible<2>{
+      Inner types \alert{\tt Vertex, Arc, Face, xxxRange, xxxSet}
+      \begin{lstlisting}
+FaceRange   facesAroundVertex( const Vertex & v ) 
+VertexRange verticesAroundFace( const Face & f )
+FaceRange   facesAroundArc( const Arc & a )
+FaceSet     allFaces()
+FaceSet     allClosedFaces()
+FaceSet     allOpenFaces() ...
+      \end{lstlisting}
+      %}
+    
 \end{frame}
 %------------------------------------------------------------------------------
 
