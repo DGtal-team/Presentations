@@ -8,6 +8,51 @@
 #include "DGtal/topology/DigitalSurface.h"
 #include "DGtal/shapes/Shapes.h"
 
+template <typename MyDigSurf>
+int
+displaySurface( QApplication & application, MyDigSurf digSurf )
+{
+  typedef Z3i::Point Point; // 3D digital point
+  Viewer3D viewer;
+  viewer.show(); 
+  for ( typename MyDigSurf::ConstIterator it = digSurf.begin(),
+	  itend = digSurf.end(); it != itend; ++it )
+    viewer << *it;
+  viewer << Viewer3D::updateDisplay;
+  return application.exec();
+}
+
+template <typename MyDigSurf>
+int
+displayGraph( QApplication & application, MyDigSurf digSurf )
+{
+  typedef typename MyDigSurf::KSpace KSpace;
+  typedef typename KSpace::Point Point;
+  typedef typename MyDigSurf::Vertex Vertex;
+  typedef typename MyDigSurf::ConstIterator ConstIterator;
+  const KSpace & K = digSurf.container().space();
+  Viewer3D viewer;
+  viewer.show(); 
+  typedef std::vector<Vertex> Neighborhood;
+  for ( ConstIterator it = digSurf.begin(),
+	  itend = digSurf.end(); it != itend; ++it )
+    {
+      Neighborhood N;
+      std::back_insert_iterator<Neighborhood> itN = std::back_inserter( N );
+      digSurf.writeNeighbors( itN , *it );
+      Point p = K.sKCoords( *it );
+      for ( unsigned int i = 0; i < N.size(); ++i )
+	{
+	  Point q = K.sKCoords( N[ i ] );
+	  viewer.addLine ( p[0]/2.0, p[1]/2.0, p[2]/2.0,
+			   q[0]/2.0, q[1]/2.0, q[2]/2.0, 
+			   DGtal::Color ( 200,20,20 ), 2.0 );
+	}
+    }
+  viewer << Viewer3D::updateDisplay;
+  return application.exec();
+}
+
 int main( int argc, char** argv )
 {
   typedef Z3i::Point Point; // 3D digital point
@@ -30,11 +75,7 @@ int main( int argc, char** argv )
   std::cout << "- nb surfels/vertices = " << digSurf.size() << std::endl;
 
   QApplication application( argc, argv );
-  Viewer3D viewer;
-  viewer.show(); 
-  for ( MyDigSurf::ConstIterator it = digSurf.begin(),
-	  itend = digSurf.end(); it != itend; ++it )
-    viewer << *it;
-  viewer << Viewer3D::updateDisplay;
-  return application.exec();
+  displaySurface( application, digSurf );
+  displayGraph( application, digSurf );
+  return 0;
 }
