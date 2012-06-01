@@ -9,6 +9,7 @@ LINK_DIRECTORIES(${DGTAL_LIBRARY_DIRS})
 SET(DGTAL_EXAMPLES 
 		example-1
 		example-2
+		example-3
 		)
 
 FOREACH(FILE ${DGTAL_EXAMPLES}) 

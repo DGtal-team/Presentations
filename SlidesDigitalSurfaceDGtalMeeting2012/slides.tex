@@ -450,8 +450,9 @@ void exportEmbeddedSurfaceAs3DOFF
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Containers}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 %------------------------------------------------------------------------------
-\begin{frame}[squeeze]%[allowframebreaks]
+\begin{frame}%[allowframebreaks]
   \frametitle{Diversity of digital surfaces}
 
   \begin{itemize}
@@ -464,9 +465,80 @@ void exportEmbeddedSurfaceAs3DOFF
   \item the surface may be big or infinite so that only lazy extraction is reasonnable
   \end{itemize}
 
-  You can process them with the same object {\tt \alert{DigitalSurface}$<$T$>$}
+  \small
+  You wish to process them with the same object: {\tt \alert{DigitalSurface}$<$T$>$}
+
+  $T$ is a model of \href{http://liris.cnrs.fr/dgtal/doc/nightly/structDGtal_1_1CDigitalSurfaceContainer.html}{\texttt{\alertred{CDigitalSurfaceContainer}}}
 \end{frame}
 %------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+\begin{frame}%[allowframebreaks]
+  \frametitle{Partial architecture}
+
+  \only<1>{
+    \includegraphics[width=\textwidth]{diag-digital-surface-1}
+  }%
+  \only<2>{
+    \includegraphics[width=\textwidth]{diag-digital-surface-1-simplified}
+  }%
+\end{frame}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+\begin{frame}%[allowframebreaks]
+  \frametitle{Digital surface containers}
+
+\begin{itemize}[<+->]
+\item \href{http://liris.cnrs.fr/dgtal/doc/nightly/classDGtal_1_1DigitalSetBoundary.html}{\texttt{\alert{DigitalSetBoundary}$<$KSpace,DigitalSet$>$}}
+  Represents the boundary of a digital set (a set of
+  digital points, considered as the set of pixels/voxels/spels of
+  the space).
+
+  \fbox{\small $\Rightarrow$ interpixel boundary of a digital shape}
+
+\item \href{http://liris.cnrs.fr/dgtal/doc/nightly/classDGtal_1_1ImplicitDigitalSurface.html}{\texttt{\alert{ImplicitDigitalSurface}$<$KSpace,PointPredicate$>$}} Represents the (connected) boundary
+  of shape defined implicitly by a predicate. $+$ \alert{\tt Light} version.
+%%  Computes at instanciation the set of surfels by a tracking algorithm.
+
+  \fbox{\small $\Rightarrow$ implicit surface computed once or on-the-fly}
+  
+\item \href{http://liris.cnrs.fr/dgtal/doc/nightly/classDGtal_1_1SetOfSurfels.html}{\texttt{\alert{SetOfSurfels}$<$KSpace,SurfelSet$>$}} Represents an arbitrary set of surfels stored
+  explicitly.
+
+  \fbox{\small $\Rightarrow$ arbitrary known surface: add topology to a set}
+
+\item \href{http://liris.cnrs.fr/dgtal/doc/nightly/classDGtal_1_1ExplicitDigitalSurface.html}{\texttt{\alert{ExplicitDigitalSurface}$<$KSpace,SurfelPredicate$>$}} Represents a (connected) set of
+  surfels defined implicitly by a predicate.  $+$ \alert{\tt Light} version.
+%%  Computes at instanciation the set of surfels by a tracking algorithm.
+
+  \fbox{\small $\Rightarrow$ frontier between regions in images, computed once or on-the-fly}
+
+\end{itemize}
+\end{frame}
+
+%% - model ImplicitDigitalSurface, parameterized by a cellular space
+%%   and a predicate Point->bool. Represents the (connected) boundary
+%%   of shape defined implicitly by a predicate. Computes at
+%%   instanciation the set of surfels by a tracking algorithm.
+%% - model LightImplicitDigitalSurface, parameterized by a cellular
+%%   space and a predicate Point->bool. Represents the (connected)
+%%   boundary of shape defined implicitly by a predicate. Do not
+%%   compute at instanciation the set of surfels, but rather visits
+%%   the surface on demand.
+%% - model SetOfSurfels, parameterized by a cellular space and a set
+%%   storing surfels. Represents an arbitrary set of surfels stored
+%%   explicitly.
+%% - model ExplicitDigitalSurface, parameterized by a cellular space
+%%   and a predicate Surfel->bool. Represents a (connected) set of
+%%   surfels defined implicitly by a predicate. Computes at
+%%   instanciation the set of surfels by a tracking algorithm.
+%% - model LightExplicitDigitalSurface, parameterized by a cellular space
+%%   and a predicate Surfel->bool. Represents a (connected) set of
+%%   surfels defined implicitly by a predicate.  Do not
+%%   compute at instanciation the set of surfels, but rather visits
+%%   the surface on demand.
+
 %------------------------------------------------------------------------------
 \begin{frame}[squeeze]%[allowframebreaks]
   \frametitle{Package description}
