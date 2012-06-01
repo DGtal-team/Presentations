@@ -23,7 +23,7 @@
 \usepackage{tikz}
 \usepackage{listings}
 
-%\newtheorem{theorem}{Théorème}
+%\newtheorem{theorem}{Th�or�me}
 
 %\setbeamercovered{transparent}
 
@@ -489,6 +489,8 @@ void exportEmbeddedSurfaceAs3DOFF
 \begin{frame}%[allowframebreaks]
   \frametitle{Digital surface containers}
 
+
+\small
 \begin{itemize}[<+->]
 \item \href{http://liris.cnrs.fr/dgtal/doc/nightly/classDGtal_1_1DigitalSetBoundary.html}{\texttt{\alert{DigitalSetBoundary}$<$KSpace,DigitalSet$>$}}
   Represents the boundary of a digital set (a set of
@@ -517,6 +519,124 @@ void exportEmbeddedSurfaceAs3DOFF
 \end{itemize}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Full example}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%------------------------------------------------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Example: frontiers between regions in image (I)}
+
+  Creating the labelled image...
+  \begin{lstlisting}
+  using namespace Z3i;
+  typedef ImageContainerBySTLVector<Domain,DGtal::uint8_t> Image;
+  Domain domain0( Point( 0,0,0 ), Point( 10, 10, 10 ) ); 
+  Domain domain1( Point( 2,2,2 ), Point( 8, 8, 8 ) ); 
+  Domain domain2( Point( 2,4,4 ), Point( 8, 6, 6 ) ); 
+  Image image( domain0 );
+  fill( image, domain0, 0 ); // label 0
+  fill( image, domain1, 1 ); // label 1
+  fill( image, domain2, 2 ); // label 2
+  KSpace K; // creating cellular space
+  K.init( domain0.lowerBound(), domain0.upperBound(), true );
+  \end{lstlisting}
+
+\end{frame}
+%------------------------------------------------------------------------------
+%------------------------------------------------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Example: frontiers between regions in image (II)}
+
+  Creating the frontier between region 1 and region 0...
+
+  \lstset{emph={DigitalSurface,ExplicitDigitalSurface},emphstyle=\color{MyGreen}}
+  \begin{lstlisting}
+  typedef SurfelAdjacency<KSpace::dimension> SurfAdj;
+  typedef FrontierPredicate<KSpace, Image> FSurfPred;
+  typedef ExplicitDigitalSurface<KSpace,FSurfPred> FrontierContainer;
+  typedef DigitalSurface<FrontierContainer> Frontier;
+  SurfAdj surfAdj( true ); // interior in all directions.
+  // frontier between label 1 and 0 (connected part with bel10)
+  SCell vox1  = K.sSpel( Point( 2,2,2 ), K.POS );
+  SCell bel10 = K.sIncident( vox1, 0, false );
+  FSurfPred surfPred10( K, image, 1, 0 );
+  Frontier frontier10 = // acquired
+    new FrontierContainer( K, surfPred10, surfAdj, bel10 );
+  \end{lstlisting}
+
+\end{frame}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Example: frontiers between regions in image (III)}
+
+  Idem for region 2 and 0 (two parts) and 2 and 1...
+
+  \lstset{language=c++, numbers=left, tabsize=2, frame=single, breaklines=true, basicstyle=\ttfamily\tiny,
+     numberstyle=\tiny\ttfamily, framexleftmargin=13mm, xleftmargin=12mm,keywordstyle=\color{blue}\bfseries,%
+     commentstyle=\sffamily\color{red}}
+  \lstset{emph={DigitalSurface,ExplicitDigitalSurface},emphstyle=\color{MyGreen}}
+  \begin{lstlisting}
+  // frontier between label 2 and 0 (with bel20)
+  SCell vox2  = K.sSpel( Point( 2,4,4 ), K.POS );
+  SCell bel20 = K.sIncident( vox2, 0, false );
+  FFSurfPred surfPred20( K, image, 2, 0 );
+  Frontier frontier20 =
+    new FrontierContainer( K, surfPred20, surfAdj, bel20 );
+  // frontier between label 2 and 0 (with bel20bis)
+  SCell vox2bis  = K.sSpel( Point( 8,6,6 ), K.POS );
+  SCell bel20bis = K.sIncident( vox2bis, 0, true );
+  FFSurfPred surfPred20bis( K, image, 2, 0 );
+  Frontier frontier20bis =
+    new FrontierContainer( K, surfPred20bis, surfAdj, bel20bis );
+  trace.endBlock();
+  // frontier between label 2 and 1 (with bel21)
+  SCell bel21 = K.sIncident( vox2, 1, false );
+  FFSurfPred surfPred21( K, image, 2, 1 );
+  Frontier frontier21 =
+    new FrontierContainer( K, surfPred21, surfAdj, bel21 );
+  \end{lstlisting}
+
+\end{frame}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Example: frontiers between regions in image (III)}
+
+  Displaying surfaces...
+  
+  \lstset{language=c++, numbers=left, tabsize=2, frame=single, breaklines=true, basicstyle=\ttfamily\tiny,
+     numberstyle=\tiny\ttfamily, framexleftmargin=13mm, xleftmargin=12mm,keywordstyle=\color{blue}\bfseries,%
+     commentstyle=\sffamily\color{red}}
+  \lstset{emph={ConstIterator,begin,end,DigitalSurface,ExplicitDigitalSurface},emphstyle=\color{MyGreen}}
+  \begin{lstlisting}
+  QApplication application(argc,argv);
+  Viewer3D viewer;
+  viewer.show(); 
+  viewer << SetMode3D( domain0.className(), "BoundingBox" )
+         << domain0;
+  Cell dummy;
+  // Display frontier between 1 and 0 in RED
+  unsigned int nbSurfels10 = 0;
+  viewer << CustomColors3D( Color::Red, Color::Red );
+  for ( Frontier::ConstIterator 
+          it = frontier10.begin(), it_end = frontier10.end();
+        it != it_end; ++it, ++nbSurfels10 )
+    viewer << *it; 
+  // Display frontier between 2 and 0 in MAGENTA and YELLOW
+  // Display frontier between 2 and 1 in CYAN
+    ...
+  \end{lstlisting}
+
+  \vspace{-0.6cm}
+  \mbox{~}\hfill\fbox{\includegraphics[width=0.4\textwidth]{frontiers}}
+
+\end{frame}
+
 %% - model ImplicitDigitalSurface, parameterized by a cellular space
 %%   and a predicate Point->bool. Represents the (connected) boundary
 %%   of shape defined implicitly by a predicate. Computes at
@@ -539,17 +659,91 @@ void exportEmbeddedSurfaceAs3DOFF
 %%   compute at instanciation the set of surfels, but rather visits
 %%   the surface on demand.
 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Synthesis}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%------------------------------------------------------------------------------
+\begin{frame}[fragile]%[allowframebreaks]
+  \frametitle{More fun... current simple applications}
+
+  \lstset{language=bash, numbers=left, tabsize=2, frame=single, breaklines=true, basicstyle=\ttfamily\tiny,
+     numberstyle=\tiny\ttfamily, framexleftmargin=13mm, xleftmargin=12mm,keywordstyle=\color{blue}\bfseries,%
+     commentstyle=\sffamily\color{red}}
+  \begin{lstlisting}
+cd examples/topology
+# marching cubes algorithm
+./volMarchingCubes cat10.vol 1 255 0
+geomview marching-cube.off
+# tracking implicit polynomial surfaces
+./trackImplicitPolynomialSurfaceToOFF "3*x^2-2*y^2+z^3+5y^2*(z-1)*(z+1)" -2 -2 -2 2 2 2 0.05
+geomview marching-cube.off
+# breadth-first visiting on surfaces
+./volBreadthFirstTraversal Al.100.vol 0 255
+# More elaborate example: estimating normals on surfaces
+cd ../../tests/geometry/surfaces
+./testLocalConvolutionNormalVectorEstimator 
+  \end{lstlisting}
+
+  \begin{center}
+  \begin{tabular}{cccc}
+    \includegraphics[width=0.18\textwidth]{digital-surface-mc-cat10}&
+    \includegraphics[width=0.18\textwidth]{polynomial-fun2}&
+    \includegraphics[width=0.25\textwidth]{bfv-al100}&
+    \includegraphics[width=0.25\textwidth]{normals}\\
+  \end{tabular}
+  \end{center}
+
+\end{frame}
+%------------------------------------------------------------------------------
+
+
+
+\newcommand{\OK}[0]{({\color{green}yes})}
+\newcommand{\PART}[0]{({\color{orange}part})}
+\newcommand{\KO}[0]{({\color{red}no})}
+%------------------------------------------------------------------------------
+\begin{frame}%[allowframebreaks]
+  \frametitle{Next objectives (from 0.4 to 0.5)}
+
+  \begin{enumerate}
+  \item classical digital topology 
+    \begin{itemize}
+    \item other adjacencies \KO
+    \item Adjacency = unoriented graph, associated concepts \PART
+    \item make everything faster with specialization (especially
+      simpleness) \PART
+    \end{itemize}
+  \item cubical cellular topology
+    \begin{itemize}
+    \item cellular grid space concept \OK
+    \item cubical complexes, interior, closure \KO
+    \item path, mapping (homotopy) \KO
+    \item chains, boundary operator, cochains, coboundary \KO
+    \item (co)homology \KO
+    \end{itemize}
+  \item digital surface topology
+    \begin{itemize} 
+    \item digital surface concept \OK
+    \item digital surface graph and cograph (umbrellas) \OK
+    \item digital surface map \PART
+    \end{itemize}
+  \end{enumerate}
+\end{frame}
+%------------------------------------------------------------------------------
 %------------------------------------------------------------------------------
 \begin{frame}[squeeze]%[allowframebreaks]
-  \frametitle{Package description}
+  \frametitle{Topology package description (as of 0.5)}
 
-  \begin{myblocklbluish}{\textwidth}{Should contain}
+  \begin{myblocklbluish}{\textwidth}{Content}
     \begin{itemize}
       \small
-    \item classical digital topology {\em à la} Rosenfeld
+    \item classical digital topology {\em \`a la} Rosenfeld
     \item cartesian cellular topology
-    \item digital surface topology {\em à la} Herman
-    \item must be the base block of geometric algorithms
+    \item digital surface topology {\em \`a la} Herman
+    \item base block of geometric algorithms
     \end{itemize}
   \end{myblocklbluish}
   \begin{myblocklgreenish}{\textwidth}{Examples}
@@ -558,7 +752,7 @@ void exportEmbeddedSurfaceAs3DOFF
     \item adjacencies, connected components, simple points, thinning
     \item cells, boundary operators, incidence, opening, closing
     \item contours, surfel adjacency, surface tracking
-    \item topological invariants
+    \item high-level manipulation of digital surfaces
     \end{itemize}
   \end{myblocklgreenish}
   \begin{myblocklredish}{\textwidth}{Location}
@@ -567,6 +761,7 @@ void exportEmbeddedSurfaceAs3DOFF
     \item \texttt{\{DGtal\}/src/DGtal/topology}
     \item \texttt{\{DGtal\}/src/DGtal/helpers}
     \item \texttt{\{DGtal\}/tests/topology}
+    \item \texttt{\{DGtal\}/examples/topology}
     \end{itemize}
   \end{myblocklredish}
 

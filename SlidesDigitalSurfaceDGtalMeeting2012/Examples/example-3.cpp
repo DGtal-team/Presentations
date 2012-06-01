@@ -1,12 +1,10 @@
 /**
- * @file frontierAndBoundary.cpp
+ * @file example-3.cpp
  * @ingroup Examples
  * @author Jacques-Olivier Lachaud (\c jacques-olivier.lachaud@univ-savoie.fr )
  * Laboratory of Mathematics (CNRS, UMR 5127), University of Savoie, France
  *
  * @date 2012/02/06
- *
- * An example file named qglViewer.
  *
  * This file is part of the DGtal library.
  */
@@ -50,11 +48,9 @@ void fill( Image & I, const Domain & d, unsigned int label )
 
 int main( int argc, char** argv )
 {
-  using namespace Z3i;
 
-  //! [frontierAndBoundary-LabelledImage]
-  typedef ImplicitBall<Space> EuclideanShape;
-  typedef GaussDigitizer<Space,EuclideanShape> DigitalShape; 
+  //! [example-3-LabelledImage]
+  using namespace Z3i;
   typedef ImageContainerBySTLVector<Domain,DGtal::uint8_t> Image;
   Domain domain0( Point( 0,0,0 ), Point( 10, 10, 10 ) ); 
   Domain domain1( Point( 2,2,2 ), Point( 8, 8, 8 ) ); 
@@ -63,9 +59,9 @@ int main( int argc, char** argv )
   fill( image, domain0, 0 );
   fill( image, domain1, 1 );
   fill( image, domain2, 2 );
-  //! [frontierAndBoundary-LabelledImage]
+  //! [example-3-LabelledImage]
   
-  //! [frontierAndBoundary-KSpace]
+  //! [example-3-KSpace]
   trace.beginBlock( "Construct the Khalimsky space from the image domain." );
   KSpace K;
   bool space_ok = K.init( domain0.lowerBound(), domain0.upperBound(), true );
@@ -75,9 +71,9 @@ int main( int argc, char** argv )
       return 2;
     }
   trace.endBlock();
-  //! [frontierAndBoundary-KSpace]
+  //! [example-3-KSpace]
 
-  //! [frontierAndBoundary-SetUpDigitalSurface]
+  //! [example-3-SetUpDigitalSurface]
   trace.beginBlock( "Set up digital surface." );
   typedef SurfelAdjacency<KSpace::dimension> MySurfelAdjacency;
   MySurfelAdjacency surfAdj( true ); // interior in all directions.
@@ -103,14 +99,14 @@ int main( int argc, char** argv )
   Frontier frontier20bis =
     new FrontierContainer( K, surfPredicate20bis, surfAdj, bel20bis );
   trace.endBlock();
-  // frontier between label 2 and 0 (connected part containing bel20)
+  // frontier between label 2 and 1 (connected part containing bel21)
   SCell bel21 = K.sIncident( vox2, 1, false );
   FSurfelPredicate surfPredicate21( K, image, 2, 1 );
   Frontier frontier21 =
     new FrontierContainer( K, surfPredicate21, surfAdj, bel21 );
-  //! [frontierAndBoundary-SetUpDigitalSurface]
+  //! [example-3-SetUpDigitalSurface]
 
-  //! [volBreadthFirstTraversal-DisplayingSurface]
+  //! [example-3-DisplayingSurface]
   trace.beginBlock( "Displaying surface in Viewer3D." );
   QApplication application(argc,argv);
   Viewer3D viewer;
@@ -153,5 +149,5 @@ int main( int argc, char** argv )
   viewer << Viewer3D::updateDisplay;
   trace.endBlock();
   return application.exec();
-  //! [volBreadthFirstTraversal-DisplayingSurface]
+  //! [example-3-DisplayingSurface]
 }
