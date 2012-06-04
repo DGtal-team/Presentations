@@ -81,11 +81,11 @@
 \usepackage{beamerthemeliris2}
 \useoutertheme{smoothbars}
 
-\title[DGtal Meeting 2012]{Introduction to  DGtal and its concepts}
+\title[DGtal Meeting 2012]{Introduction to  DGtal and its Concepts}
 \subtitle{\url{http://liris.cnrs.fr/dgtal}}
 
-\author{~}
-%\author[DGtal~~~~~~~~~~~~~~~~~~~~~~~~~~David Coeurjolly]{David Coeurjolly}
+%\author{D. Coeurjolly}
+\author[D. Coeurjolly]{David Coeurjolly}
 
 
  \newcommand{\fod}[2]{\multicolumn{2}{p{3.5cm}}{\emph{#1}\dotfill} &
@@ -572,7 +572,7 @@ Key concept: CxxxRange
 
 
   //Setting values iterating on the domain points
-  for(DomainConstIteratorIterator it = myImage.domain().begin(), itend = myImage.domain().end();
+  for(DomainConstIterator it = myImage.domain().begin(), itend = myImage.domain().end();
       it != itend; ++it)
     myImage.setValue( *it , 42 );  // (*it) is a Point
     
