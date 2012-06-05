@@ -390,17 +390,55 @@
 \begin{frame}[fragile]%[allowframebreaks]
   \frametitle{Using fractions}
 
-  Creating fractions...
+  Choosing your type of fraction...
 
   \lstset{language=c++, numbers=left, tabsize=2, frame=single, breaklines=true, basicstyle=\ttfamily\tiny,
      numberstyle=\tiny\ttfamily, framexleftmargin=13mm, xleftmargin=12mm,keywordstyle=\color{blue}\bfseries,%
      commentstyle=\sffamily\color{red}}
-  \lstset{emph={gcd,extendedEuclid,getCFrac},emphstyle=\color{MyGreen}}
+  \lstset{emph={LighterSternBrocot},emphstyle=\color{MyGreen}}
   \begin{lstlisting}
-  typedef BigInteger Integer;
-  typedef LighterSternBrocot<Integer,int64_t> SB;
+  // quotients are int64_t, numerators are BigInteger.
+  typedef LighterSternBrocot<BigInteger,int64_t> SB; 
   typedef SB::Fraction Fraction;
-  
+  \end{lstlisting}
+\end{frame}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+\begin{frame}[fragile]%[allowframebreaks]
+  \frametitle{Using fractions}
+
+  \small 
+  Elementary methods : {\tt z} is a fraction
+
+  \begin{tabular}{cll}
+    Name & Expression & Semantics \\ \hline
+    Constructor   & {\tt Fraction( p, q )} & creates the fraction $p'/q'$, where \\
+    & & $p'=p/g$, $q'=q/g$, $g=\gcd(p,q)$ \\
+    numerator     & {\tt z.p()}            & returns the numerator \\
+    denominator   & {\tt z.q()}            & returns the denominator \\
+    quotient      & {\tt z.u()}            & returns the quotient $u_k$\\
+    depth         & {\tt z.k()}            & returns the depth $k$ \\
+    null test     & {\tt z.null()}         & returns 'true' if the fraction is null 0/0 \\
+    even parity   & {\tt z.even()}         & returns 'true' iff $k$ is even \\
+    odd parity    & {\tt z.odd()}          & returns 'true' iff $k$ is odd \\
+  \end{tabular}
+\end{frame}
+%------------------------------------------------------------------------------
+
+
+%------------------------------------------------------------------------------
+\begin{frame}[fragile]%[allowframebreaks]
+  \frametitle{Using fractions}
+
+  \lstset{language=c++, numbers=left, tabsize=2, frame=single, breaklines=true, basicstyle=\ttfamily\tiny,
+     numberstyle=\tiny\ttfamily, framexleftmargin=13mm, xleftmargin=12mm,keywordstyle=\color{blue}\bfseries,%
+     commentstyle=\sffamily\color{red}}
+  \lstset{emph={display,previousPartial,reduced,pushBack},emphstyle=\color{MyGreen}}
+
+  Creating fractions and getting convergents...
+
+  \begin{lstlisting}
   Fraction z( 643, 432 ); // classical instanciation
   SB::display( std::cout, z ); // z=z_3=[1,2,21,10]
   std::cout << std::endl;
@@ -412,12 +450,255 @@
   Fraction z1 = z.reduced( 2 ); // z_{n-2}
   SB::display( std::cout, z1 );  // z_1=[1,2]
   std::cout << std::endl;
-  z.push_back( make_pair( 12, 4 ) ); // deeper fraction
+  z.pushBack( make_pair( 12, 4 ) ); // deeper fraction
   SB::display( std::cout, z ); // z=z_4=[1,2,21,10,12]
   // [Fraction f=7780/5227 u=12 k=4 [1,2,21,10,12] ]
+  std::cout << std::endl;
+  // Fraction is a Back Insert Sequence
+  back_insert_iterator<Fraction> outIt = back_inserter( z );
+  *outIt++ = make_pair( 1, 5 ); // u_5 = 1
+  *outIt++ = make_pair( 3, 6 ); // u_6 = 3
+  SB::display( std::cout, z ); 
+  // [Fraction f=33049/22204 u=3 k=6 [1,2,21,10,12,1,3] ]
   std::cout << std::endl;
   \end{lstlisting}
 
 \end{frame}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+\begin{frame}[fragile]%[allowframebreaks]
+  \frametitle{Using fractions}
+
+  \scriptsize
+  Other useful methods... \\ \medskip
+
+  \begin{tabular}{cll}
+    Name & Expression & Semantics \\ \hline
+    splitting formula &	{\tt z.getSplit(z1, z2)} & $z_1 \oplus z_2 = z$ \\
+    Berstel splitting & {\tt z.getSplitBerstel(x1, n1, x2, n2)} & $(z_1)^{n_1} \oplus (z_2)^{n_2} = z$\\
+  \end{tabular} \\ \bigskip
+
+  \begin{tabular}{cc}
+    \includegraphics[width=0.45\textwidth]{split-5-12}&
+    \includegraphics[width=0.45\textwidth]{splitB-5-12}\\
+    split $5/12 = 2/5 \oplus 3/7$ & Berstel $5/12 = 2/5 \oplus 2/5 \oplus 1/2$ \\
+  \end{tabular}
+
+  \begin{itemize}
+  \item obvious link with Bézout points, leaning points of straight lines.
+  \end{itemize}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Patterns, straightness}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%------------------------------------------------------------------------------
+\begin{frame}
+  \frametitle{Digital straight segments as Patterns}
+
+  \only<1>{
+  \begin{definition}[Pattern]%[\Cite{Christoffel, 1875}]
+    Freeman chain code between two consecutive upper leaning points of a digital
+    straight line
+  \end{definition}
+
+    \begin{center}
+      \begin{tabular}{cc}
+        \includegraphics[width=4.2cm]{Images/pattern_dsl.png} &
+        \includegraphics[width=4cm]{Images/pattern4.png} \\
+        DSL( 7, 16, 0 ) & 00010010010001001001001\\
+      \end{tabular}
+    \end{center}
+  $=$ Christoffel words [\Cite{Christoffel, 1875}]
+  }
+
+  \only<2-3>{ 
+    {\small Recursive formula \Cite{Berstel, 96}
+      (also splitting formula \Cite{Bruckstein \ldots})}
+
+    \[ \frac{7}{16} = [0, 2, 3, 2] \]
+
+    \begin{tabular}{ccccc}
+      $E( [0, 2, 3, \alertred{2}] )$ & = & 
+      $E( [0, 2, 3 ] )^\alertred{2}$ & $E( [0, 2 ] )$ \\
+      $00010010010001001001001$ & = & $(0001001001)^\alertred{2}$ & $001$ \\
+      \raisebox{-1.5em}{\includegraphics[width=4cm]{Images/pattern4.png}} & = & 
+      $\left( \raisebox{-1em}{\includegraphics[width=2cm]{Images/pattern3.png}} \right)^\alertred{2}$ &
+      \includegraphics[width=0.75cm]{Images/pattern2.png} \\
+
+      \only<3>{
+      $E( [0, 2, \alertred{3}] )$ & = & 
+      $E( [ 0 ] )$ & $E( [0, 2 ] )^\alertred{3}$ \\
+      $0001001001$ & = & $0$ & $(001)^\alertred{3}$ \\
+      \raisebox{-1em}{\includegraphics[width=2cm]{Images/pattern3.png}} & = & 
+      \includegraphics[width=0.5cm]{Images/pattern1.png} &
+      $\left( \raisebox{0em}{\includegraphics[width=0.75cm]{Images/pattern2.png}} \right)^\alertred{3}$ \\
+      }
+    \end{tabular}
+  }
+\end{frame}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Patterns in DGtal}
+
+  {\small
+  Class \href{http://liris.cnrs.fr/dgtal/doc/nightly/classDGtal_1_1Pattern.html}{\texttt{\alert{Pattern}$<$Fraction$>$}}
+  }
+
+  \lstset{language=c++, numbers=left, tabsize=2, frame=single, breaklines=true, basicstyle=\ttfamily\tiny,
+     numberstyle=\tiny\ttfamily, framexleftmargin=13mm, xleftmargin=12mm,keywordstyle=\color{blue}\bfseries,%
+     commentstyle=\sffamily\color{red}}
+  \lstset{emph={rE, rEs,Pattern},emphstyle=\color{MyGreen}}
+  
+  \begin{lstlisting}
+    ...
+  typedef LighterSternBrocot<int32_t,int32_t> SB; // Stern-Brocot tree
+  typedef SB::Fraction Fraction; // the type for fractions
+  typedef Pattern<Fraction> MyPattern; // the type for patterns
+
+  DGtal::int32_t p = atoi( argv[ 1 ] );
+  DGtal::int32_t q = atoi( argv[ 2 ] );
+  MyPattern pattern( p, q );
+   
+  bool sub = ( argc > 3 ) && ( std::string( argv[ 3 ] ) == "SUB" );
+  cout << ( ! sub ? pattern.rE() : pattern.rEs( "(|)" ) ) << endl;
+  \end{lstlisting}
+
+  \lstset{language=bash, numbers=left, tabsize=2, frame=single, breaklines=true, basicstyle=\ttfamily\tiny,
+     numberstyle=\tiny\ttfamily, framexleftmargin=13mm, xleftmargin=12mm,keywordstyle=\color{blue}\bfseries,%
+     commentstyle=\sffamily\color{red}}
+
+   \begin{lstlisting}
+bash> ./examples/math/arithmetic/pattern 11 17 
+0010010100101001010010100101
+bash> ./examples/math/arithmetic/pattern 11 17 SUB
+((00|1)|(0|0101)(0|0101)(0|0101)(0|0101)(0|0101))
+   \end{lstlisting}
+
+  
+\begin{itemize}
+\item[+] positions of leaning points
+\item[+] \small greatest included subpattern given some $[AB]$
+\item[+] \small smallest covering subpattern given some $[AB]$
+\end{itemize}
+
+
+\end{frame}
+%------------------------------------------------------------------------------
+
+%------------------------------------------------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Digital straight lines}
+
+  \centerline{
+    \includegraphics[width=0.3\textwidth]{Images/pattern_dsl}
+  }
+
+  {\small Class
+    \href{http://liris.cnrs.fr/dgtal/doc/nightly/classDGtal_1_1StandardDSLQ0.html}{\texttt{\alert{StandardDSLQ0}$<$Fraction$>$}}
+  }, characteristics $(a,b,\mu)$
+
+  \lstset{language=c++, numbers=left, tabsize=2, frame=single, breaklines=true, basicstyle=\ttfamily\tiny,
+     numberstyle=\tiny\ttfamily, framexleftmargin=13mm, xleftmargin=12mm,keywordstyle=\color{blue}\bfseries,%
+     commentstyle=\sffamily\color{red}}
+  \lstset{emph={StandardDSLQ0},emphstyle=\color{MyGreen}}
+  
+  \begin{lstlisting}
+    #include "DGtal/math/arithmetic/StandardDSLQ0.h"
+    ...
+    typedef ... Fraction;
+    typedef StandardDSLQ0<Fraction> DSL;
+    ...
+    DSL D( 7, 16, 0 ); // (a, b, mu)
+  \end{lstlisting}
+
+  \begin{itemize}
+  \item \small get characteristics: {\tt a(), b(), mu(), mup()}
+  \item \small get slope {\tt slope()} and pattern {\tt pattern()}
+  \item \small get first upper leaning point in quadrant {\tt U()}, next lower {\tt L()}
+  \item \small get points from given abscissa or ordinate {\tt lowestY( x )}, ...
+  \end{itemize}
+\end{frame}
+
+%------------------------------------------------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Digital straight lines can be enumerated}
+
+
+  \centerline{
+    \includegraphics[width=0.3\textwidth]{Images/pattern_dsl}
+    \includegraphics[width=0.3\textwidth]{Images/dsl}
+  }
+
+  \lstset{language=c++, numbers=left, tabsize=2, frame=single, breaklines=true, basicstyle=\ttfamily\tiny,
+     numberstyle=\tiny\ttfamily, framexleftmargin=13mm, xleftmargin=12mm,keywordstyle=\color{blue}\bfseries,%
+     commentstyle=\sffamily\color{red}}
+  \lstset{emph={StandardDSLQ0,L,U,begin,end,v},emphstyle=\color{MyGreen}}
+  
+  \begin{lstlisting}
+  typedef StandardDSLQ0<Fraction> DSL;
+  typedef DSL::ConstIterator ConstIterator;
+  DSL D( 7, 16, 0 ); // (a, b, mu)
+  board << CustomStyle( plow.className(), // in blue
+                        new CustomColors( Color(0,0,255),
+                                          Color(100,100,255) ) );
+  // segment [UL[                                          
+  for ( ConstIterator it = D.begin( D.U() ),
+          itend = D.end( D.L() ); it != itend; ++it )
+    board << *it;
+  board << CustomStyle( plow.className(), // in red
+                        new CustomColors( Color(255,0,0),
+                                          Color(255,100,100) ) );
+  // segment [LU'[                                          
+  for ( ConstIterator it = D.begin( D.L() ),
+          itend = D.end( D.U() + D.v() ); it != itend; ++it )
+    board << *it;
+  \end{lstlisting}
+
+  \begin{itemize}
+  \item \small A DSL is also a model of Class
+    \href{http://liris.cnrs.fr/dgtal/doc/nightly/structDGtal_1_1CPointPredicate.html}{\texttt{\alert{CPointPredicate}}}
+  \end{itemize}
+\end{frame}
+
+%------------------------------------------------------------------------------
+\begin{frame}[fragile]
+  \frametitle{Fast extraction of subsegments}
+
+  \small
+  Knowing a DSL $D$, what are the characteristics of a subsegment $[A,B]$ ?
+
+  \scriptsize
+  \begin{itemize}
+    \item standard recognition of the segment $[A,B]$ e.g. \Cite{Debled, Reveilles 1995}\\
+      $\Rightarrow$ linear in its length
+    \item {\tt D.smartDSS(...)} recognition by going top-down the Stern-Brocot tree. \Cite{Said, L. 2009} \\
+      $\Rightarrow$ linear in the sum of the quotients of output slope
+    \item {\tt D.reversedSmartDSS(...)} recognition by going bottom-up the Stern-Brocot tree.  \Cite{Said, L. 2010} \\
+      $\Rightarrow$ linear in the depth of output slope
+  \end{itemize}
+
+\newcommand{\ALG}[1]{\textbf{#1}}
+
+\begin{center}
+\begin{tabular}{|r|r|r|r|r|} \cline{2-5}
+\multicolumn{1}{c}{\mbox{$\;$}} & \multicolumn{4}{|c|}{Speed-up factor wrt \ALG{ArithmeticDSS}} \\ \cline{2-5}
+\multicolumn{1}{c}{\mbox{$\;$}} & \multicolumn{2}{|c|}{\ALG{SmartDSS}} & \multicolumn{2}{|c|}{\ALG{ReversedSmartDSS}} \\ \hline
+$N$ & $M=N/10$ & $M=N/2$& $M=N/10$ & $M=N/2$\\ \hline \hline
+30 & 1,2 & 1,5 & 1,1 & 1,4 \\
+400 & 2,3 & 6,8 & 2,2 & 6,8 \\
+1600 & 6,7 & 26,9 & 6,3 & 27,7 \\
+25600 & 70,9 & 378,3 & 75,5 & 441,9 \\
+409600 & 2195,0 & 22274,8 & 2574,1 & 27239,4 \\ \hline
+\end{tabular}
+\end{center}
+
+\end{frame}
+
 
 \end{document}

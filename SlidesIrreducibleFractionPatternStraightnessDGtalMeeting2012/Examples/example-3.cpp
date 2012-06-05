@@ -1,3 +1,4 @@
+#include <iterator>
 #include "DGtal/helpers/StdDefs.h"
 #include "DGtal/math/arithmetic/LighterSternBrocot.h"
 
@@ -27,5 +28,13 @@ int main( int argc, char** argv )
   SB::display( std::cout, z ); // z=z_4=[1,2,21,10,12]
   // [Fraction f=7780/5227 u=12 k=4 [1,2,21,10,12] ]
   std::cout << std::endl;
+
+  back_insert_iterator<Fraction> outIt = back_inserter( z );
+  *outIt++ = make_pair( 1, 5 );
+  *outIt++ = make_pair( 3, 6 );
+  SB::display( std::cout, z ); 
+  // [Fraction f=33049/22204 u=3 k=6 [1,2,21,10,12,1,3] ]
+  std::cout << std::endl;
+
   return 0;
 }
