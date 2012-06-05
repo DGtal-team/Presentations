@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+ "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="459.538mm" height="116.679mm" 
+     viewBox="0 0 1302.63 330.744" 
+     xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" >
+<desc>convex-and-concave-parts.svg, created with the Board library (Copyleft) 2007 Sebastien Fourey</desc>
+<polyline fill="none" stroke="rgb(0,0,0)" stroke-width="0.176mm" style="stroke-linecap:butt;stroke-linejoin:miter"
+          points="4.36,19.62 32.71,19.62 32.71,47.97 61.05,47.97 89.4,47.97 89.4,76.32 117.75,76.32
+                   117.75,104.66 117.75,133.01 146.09,133.01 146.09,161.36 174.44,161.36 174.44,189.7
+                   174.44,218.05 202.79,218.05 202.79,246.4 231.13,246.4 231.13,274.74 259.48,274.74
+                   259.48,303.09 287.83,303.09 316.17,303.09 344.52,303.09 372.86,303.09 372.86,274.74
+                   401.21,274.74 401.21,246.4 429.56,246.4 429.56,218.05 457.9,218.05 457.9,189.7
+                   457.9,161.36 486.25,161.36 486.25,133.01 514.6,133.01 514.6,104.66 514.6,76.32
+                   542.94,76.32 542.94,47.97 571.29,47.97 599.64,47.97 627.98,47.97 656.33,47.97
+                   684.68,47.97 684.68,76.32 713.02,76.32 713.02,104.66 713.02,133.01 741.37,133.01
+                   741.37,161.36 769.72,161.36 769.72,189.7 769.72,218.05 798.06,218.05 798.06,246.4
+                   826.41,246.4 826.41,274.74 854.75,274.74 854.75,303.09 883.1,303.09 911.45,303.09
+                   939.79,303.09 968.14,303.09 968.14,274.74 996.49,274.74 996.49,246.4 1024.83,246.4
+                   1024.83,218.05 1024.83,189.7 1053.18,189.7 1053.18,161.36 1081.53,161.36 1081.53,133.01
+                   1109.87,133.01 1109.87,104.66 1109.87,76.32 1138.22,76.32 1138.22,47.97 1166.57,47.97
+                   1194.91,47.97 1223.26,47.97 1251.61,47.97 1279.95,47.97 1279.95,76.32 1279.95,104.66
+                  " />
+<polygon fill="none" stroke="rgb(0,0,0)" stroke-width="0.353mm" style="stroke-linecap:butt;stroke-linejoin:miter"
+          points="17.44,0 0,26.17 117.75,104.66 135.19,78.5" />
+<polygon fill="none" stroke="rgb(255,255,0)" stroke-width="0.353mm" style="stroke-linecap:butt;stroke-linejoin:miter"
+          points="85.19,30.73 55.69,51.8 243.39,314.58 272.89,293.51" />
+<polygon fill="none" stroke="rgb(0,128,0)" stroke-width="0.353mm" style="stroke-linecap:butt;stroke-linejoin:miter"
+          points="124.66,99.13 97.01,121.26 260.17,325.21 287.83,303.09" />
+<polygon fill="none" stroke="rgb(0,128,0)" stroke-width="0.353mm" style="stroke-linecap:butt;stroke-linejoin:miter"
+          points="174.44,189.7 152.32,217.36 294.05,330.74 316.17,303.09" />
+<polygon fill="none" stroke="rgb(0,128,0)" stroke-width="0.353mm" style="stroke-linecap:butt;stroke-linejoin:miter"
+          points="232.8,268.07 226.13,294.75 366.2,329.77 372.86,303.09" />
+<polygon fill="none" stroke="rgb(0,128,0)" stroke-width="0.353mm" style="stroke-linecap:butt;stroke-linejoin:miter"
+          points="259.48,303.09 266.15,329.77 406.21,294.75 399.54,268.07" />
+<polygon fill="none" stroke="rgb(0,128,0)" stroke-width="0.353mm" style="stroke-linecap:butt;stroke-linejoin:miter"
+          points="316.17,303.09 338.3,330.74 480.03,217.36 457.9,189.7" />
+<polygon fill="none" stroke="rgb(0,128,0)" stroke-width="0.353mm" style="stroke-linecap:butt;stroke-linejoin:miter"
+          points="344.52,303.09 372.17,325.21 535.34,121.26 507.68,99.13" />
+<polygon fill="none" stroke="rgb(255,255,0)" stroke-width="0.353mm" style="stroke-linecap:butt;stroke-linejoin:miter"
+          points="359.46,293.51 388.95,314.58 576.65,51.8 547.16,30.73" />
+<polygon fill="none" stroke="rgb(0,0,255)" stroke-width="0.353mm" style="stroke-linecap:butt;stroke-linejoin:miter"
+          points="497.15,78.5 514.6,104.66 599.64,47.97 582.19,21.8" />
+<polygon fill="none" stroke="rgb(0,0,255)" stroke-width="0.353mm" style="stroke-linecap:butt;stroke-linejoin:miter"
+          points="510.24,54.51 515.69,81.77 684.68,47.97 679.22,20.71" />
+<polygon fill="none" stroke="rgb(0,0,255)" stroke-width="0.353mm" style="stroke-linecap:butt;stroke-linejoin:miter"
+          points="548.39,20.71 542.94,47.97 711.93,81.77 717.38,54.51" />
+<polygon fill="none" stroke="rgb(0,0,255)" stroke-width="0.353mm" style="stroke-linecap:butt;stroke-linejoin:miter"
+          points="645.43,21.8 627.98,47.97 713.02,104.66 730.47,78.5" />
+<polygon fill="none" stroke="rgb(255,255,0)" stroke-width="0.353mm" style="stroke-linecap:butt;stroke-linejoin:miter"
+          points="680.46,30.73 650.97,51.8 838.67,314.58 868.16,293.51" />
+<polygon fill="none" stroke="rgb(0,128,0)" stroke-width="0.353mm" style="stroke-linecap:butt;stroke-linejoin:miter"
+          points="719.94,99.13 692.28,121.26 855.45,325.21 883.1,303.09" />
+<polygon fill="none" stroke="rgb(0,128,0)" stroke-width="0.353mm" style="stroke-linecap:butt;stroke-linejoin:miter"
+          points="769.72,189.7 747.59,217.36 889.32,330.74 911.45,303.09" />
+<polygon fill="none" stroke="rgb(0,128,0)" stroke-width="0.353mm" style="stroke-linecap:butt;stroke-linejoin:miter"
+          points="828.08,268.07 821.41,294.75 961.47,329.77 968.14,303.09" />
+<polygon fill="none" stroke="rgb(0,128,0)" stroke-width="0.353mm" style="stroke-linecap:butt;stroke-linejoin:miter"
+          points="854.75,303.09 861.42,329.77 1001.49,294.75 994.82,268.07" />
+<polygon fill="none" stroke="rgb(0,128,0)" stroke-width="0.353mm" style="stroke-linecap:butt;stroke-linejoin:miter"
+          points="911.45,303.09 931.86,330.3 1045.24,245.26 1024.83,218.05" />
+<polygon fill="none" stroke="rgb(255,255,0)" stroke-width="0.353mm" style="stroke-linecap:butt;stroke-linejoin:miter"
+          points="939.79,303.09 967.01,323.5 1171.1,51.37 1143.89,30.96" />
+<polygon fill="none" stroke="rgb(0,0,255)" stroke-width="0.353mm" style="stroke-linecap:butt;stroke-linejoin:miter"
+          points="1092.43,78.5 1109.87,104.66 1194.91,47.97 1177.47,21.8" />
+<polygon fill="none" stroke="rgb(0,0,255)" stroke-width="0.353mm" style="stroke-linecap:butt;stroke-linejoin:miter"
+          points="1105.51,54.51 1110.96,81.77 1279.95,47.97 1274.5,20.71" />
+<polygon fill="none" stroke="rgb(0,0,255)" stroke-width="0.353mm" style="stroke-linecap:butt;stroke-linejoin:miter"
+          points="1143.67,20.71 1138.22,47.97 1279.95,76.32 1285.4,49.06" />
+<polygon fill="none" stroke="rgb(0,0,0)" stroke-width="0.353mm" style="stroke-linecap:butt;stroke-linejoin:miter"
+          points="1274.28,36.63 1251.61,47.97 1279.95,104.66 1302.63,93.33" />
+</svg>

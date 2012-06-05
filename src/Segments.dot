@@ -1,0 +1,37 @@
+digraph GSEGMENTS {
+
+    rankdir= BT
+    subgraph clusterExt {
+	      rank = same;
+        style=invis;
+        subgraph clusterBase {
+                 style=filled;
+                 color="#eeeeff";
+                 node [style=filled,color=white];
+                 label="base";
+
+                 CConstSinglePassRange; 
+        }
+        subgraph clusterBoost {
+                 style=filled;
+                 color=white;
+                 node [style=filled,color=orange];
+                 label="boost";
+
+                 "boost::DefaultConstructible" 
+                 "boost::CopyConstructible" 
+                 "boost::Assignable"
+                 "boost::EqualityComparable"
+        }
+    }
+
+  CSegment -> CConstSinglePassRange
+ 
+  CSegment -> "boost::DefaultConstructible"
+  CSegment -> "boost::CopyConstructible"
+  CSegment -> "boost::Assignable"
+  CSegment -> "boost::EqualityComparable"
+
+
+}
+
