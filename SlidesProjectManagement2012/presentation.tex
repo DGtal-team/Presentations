@@ -130,6 +130,158 @@
 \end{frame}
 
 
+\begin{frame}
+  \frametitle{DGtal team}
+\small
+  \begin{block}{Editorial Board\HH}
+    \begin{itemize}
+    \item Overall project management (discussions, objectives)
+    \item  Prepares releases
+    \item Organises DGtal meetings
+      \item Board members are updated during DGtal meetings 
+    \end{itemize}
+ \emph{David Coeurjolly, Jacques-Olivier Lachaud}
+  \end{block}
+
+  \begin{block}{Package Managers\HH}
+    \begin{itemize}
+    \item In-charge of the package design (main concepts,
+      relationships with other packages\ldots)
+    \item Organise and check  package contributions (aka modules)
+    \end{itemize}
+  \end{block}
+
+ \begin{block}{Contributors\HH}
+    \begin{itemize}
+    \item Add new functionnalities to DGtal (classes+concept+test
+      files+documentation) as a new module in a DGtal package
+    \end{itemize}
+  \end{block}
+
+We'd love to also have doc readers, build checkers, testers,...
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{DGtal Projects}
+
+  \begin{block}{DGtal\HH}
+    Main library (classes + unit tests + example programs + documentation files)
+  \end{block}
+
+\vspace{0.5cm}
+
+  \begin{block}{DGtalTools\HH}
+   Command line tools built using DGtal (multigrid shape generators,
+   contour analyzers, file format conversion,...)
+  \end{block}
+
+\vspace{0.5cm}
+
+  \begin{block}{DGtalScripts\HH}
+    Scripts and template files to generate new classes/unit tests files
+  \end{block}
+\end{frame}
+
+\begin{frame}
+  \frametitle{How to submit a new feature ?}
+
+  \begin{enumerate}
+  \item Contact the associated Package Managers (or the Editorial
+    board) 
+    \begin{itemize}
+    \item to get help on the package design and on DGtal API
+    \item to interact with the package design if necessary
+    \end{itemize}
+
+  \item Prepare your module (classes+tests+doc) and submit your module
+    as github ``pull-request''
+
+  \item Available in the next release (at least, every 6 months)
+  \end{enumerate}
+
+\vspace{0.5cm}
+
+For a new tool in  DGtalTools, contact the DGtalTools project manager
+  (cf web site) 
+
+\vspace{1cm}
+
+\alert{DGtal help desk:}
+\begin{itemize}
+\item DGtal devel mailing lists (cf web site)
+\item github pull-request/issue mechanisms when discussing on the code 
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{DGtal folder structure $\Leftrightarrow$ Packages  }
+
+  \begin{description}
+
+  \item[ \tt arithmetic/] 
+  \item[ \tt base/] Tools (trace, timer, concept checking tools, basic functors\ldots)
+  \item[ \tt geometry/] Geometrical package
+    \begin{description}
+        \item[ \tt curves/] algorithms/data structures on $1-d$ structures in dimension $n$
+        \item[ \tt surfaces/] algorithms/data structures on $(n-1)-d$ structures in dimension $n$
+        \item[ \tt volumes/] algorithms/data structures on $n-d$ structures in dimension $n$
+        \item[ \tt helpers/] ...
+        \item[ \tt tools/] ...
+    \end{description}
+  \item[ \tt helpers/]
+  \item[ \tt images/]
+  \item[ \tt io/] IO Package
+   \begin{description}
+        \item[ \tt boards/]
+        \item[ \tt viewers/]
+        \item[ \tt colormaps/]
+        \item[ \tt readers/] ...
+        \item[ \tt writers/] ...
+   \end{description}
+  \item[ \tt kernel/] Kernel
+   \begin{description}
+        \item[ \tt domains/]
+        \item[ \tt sets/]
+   \end{description}  \item[ \tt math/]
+  \item[ \tt shapes/]
+    \item[ \tt topology/] 
+  \end{description}
+\end{frame}
+
+\begin{frame}
+  \frametitle{DGtalTools folder structure}
+
+   \begin{description}
+        \item[ \tt 2dContourTools/] image to contour, ...
+        \item[ \tt estimators/] multigrid evaluation of  DGtal estimator
+        \item[ \tt shapeGenerator/] generate multigrid shape
+        \item[ \tt voltools/] CLI tools to handle .vol files
+        \item[ \tt volumetric/] DT, connected component, homotopic thinner....
+   \end{description}  
+
+   \begin{block}{Idea\HH}
+     \begin{itemize}
+     \item Weaker  structure compared to DGtal
+     \item Tools focused on a specific analysis
+     \item Good spot to test some ideas before promoting them to DGtal
+     \end{itemize}
+     
+   \end{block}
+
+\end{frame}
+
+\begin{frame}
+  \frametitle{Websites}
+
+<Demo website, github, cdash>
+\end{frame}
+
+\begin{frame}
+  \frametitle{Conclusion}
+\end{frame}
 
 \end{document}
 
