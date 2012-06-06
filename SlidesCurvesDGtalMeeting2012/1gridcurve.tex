@@ -13,8 +13,8 @@ It stores a list of (signed) $1$- or $(n-1)$-cells.
    \centering
    \subfigure[$d = 1, n = 2$]{\includegraphics[width=0.25\textwidth]{1cellsRange}}
    \subfigure[$d = 1, n = 3$]{\includegraphics[width=0.35\textwidth]{gridCurve3d1}}
-   \subfigure[$d = 2, n = 3$]{\includegraphics[width=0.3\textwidth]{gridCurve3d2}}
- \end{figure}
+   \subfigure[$d = 2, n = 3$]{\includegraphics[width=0.3\textwidth]{gridCurve3d2}} 
+\end{figure}
 \end{frame}
 
 \begin{frame}
@@ -70,7 +70,7 @@ GridCurve provides many ranges as nested types to iterate over different kinds o
  \end{center}
 }
 \only<8>{
- \parbox[c][0.3\textheight]{1\textwidth}{ \begin{center} 111222333444 \end{center} }
+ \parbox[c][0.3\textheight]{1\textwidth}{ \begin{center} 1110002223333 \end{center} }
 }
 \end{frame}
 
@@ -90,7 +90,7 @@ GridCurve<KSpace> gc(space);
   \end{lstlisting}
 ... or easier in 2d (default dimension, coordinate type, space bounds): 
   \begin{lstlisting}
-GridCurve gc; 
+GridCurve<> gc; 
   \end{lstlisting}
 
 \end{frame}
