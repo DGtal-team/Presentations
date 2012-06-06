@@ -11,9 +11,8 @@ digraph GSEGMENTCOMPUTERS {
 
   CSegment
 
-  CSegmentFactory
+  CSegmentFactory -> CSegment
 
-  CIncrementalSegmentComputer -> CSegment
   CIncrementalSegmentComputer -> CSegmentFactory
 
   CForwardSegmentComputer -> CIncrementalSegmentComputer
