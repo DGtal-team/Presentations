@@ -1,0 +1,27 @@
+digraph GGRIDCURVE {
+
+  GridCurve 
+
+  GridCurve -> XXXRange [label="::",style=dashed];
+
+  XXXRange -> ConstIterator   [label="::",style=dashed];
+  XXXRange -> ConstReverseIterator [label="::",style=dashed];
+  XXXRange -> ConstCirculator [label="::",style=dashed];
+  XXXRange -> ConstReverseCirculator [label="::",style=dashed];
+  
+        subgraph boostCluster {
+                 style=filled;
+                 color=white;
+                 node [style=filled,color=orange];
+                 label="boost";
+
+                 "boost::RandomAccessIterator"
+                 "boost::BidirectionalIterator"
+        }
+
+  ConstIterator -> "boost::RandomAccessIterator"
+  ConstReverseIterator -> "boost::RandomAccessIterator"
+  ConstCirculator -> "boost::BidirectionalIterator"
+  ConstReverseCirculator -> "boost::BidirectionalIterator"
+}
+

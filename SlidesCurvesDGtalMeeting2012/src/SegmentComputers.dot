@@ -1,0 +1,44 @@
+digraph GSEGMENTCOMPUTERS {
+
+    rankdir= BT
+
+
+    subgraph clusterConcepts {
+        style=filled;
+        color=lightgrey;
+        node [style=filled,color=white];
+        label="Segment computers (concepts)";
+
+  CSegment
+
+  CSegmentFactory
+
+  CIncrementalSegmentComputer -> CSegment
+  CIncrementalSegmentComputer -> CSegmentFactory
+
+  CForwardSegmentComputer -> CIncrementalSegmentComputer
+
+  CBidirectionalSegmentComputer -> CForwardSegmentComputer
+
+  CDynamicSegmentComputer -> CForwardSegmentComputer
+
+  CDynamicBidirectionalSegmentComputer -> CDynamicSegmentComputer
+  CDynamicBidirectionalSegmentComputer -> CBidirectionalSegmentComputer
+    }
+
+    subgraph clusterModels {
+        style=filled;
+        color="#ccffcc";
+        node [style=filled,color=white];
+        label="Segment computers (models)";
+
+        GeometricalDSS -> CBidirectionalSegmentComputer
+        GeometricalDCA -> CBidirectionalSegmentComputer
+        ArithmeticalDSS3d -> CBidirectionalSegmentComputer
+
+        ArithmeticalDSS -> CDynamicBidirectionalSegmentComputer
+        CombinatorialDSS -> CDynamicBidirectionalSegmentComputer
+
+    }
+}
+

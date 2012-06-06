@@ -1,0 +1,112 @@
+digraph GSEGMENTS {
+
+    rankdir= BT
+    subgraph clusterExt {
+	      rank = same;
+        style=invis;
+
+        subgraph clusterBoost {
+                 style=filled;
+                 color=white;
+                 node [style=filled,color=orange];
+                 label="boost";
+
+                 "boost::DefaultConstructible" 
+                 "boost::CopyConstructible" 
+                 "boost::Assignable"
+                 "boost::EqualityComparable"
+        }
+
+        subgraph clusterBase {
+                 style=filled;
+                 color="#eeeeff";
+                 node [style=filled,color=white];
+                 label="base";
+
+                 CConstSinglePassRange; 
+        }
+
+    }
+
+    subgraph clusterConcepts {
+	      rank = same;
+        style=invis;
+
+    subgraph clusterSConcepts {
+        style=filled;
+        color=lightgrey;
+        node [style=filled,color=white];
+        label="Segmentations (concepts)";
+
+  CSegmentation
+
+    }
+
+    subgraph clusterSCConcepts {
+        style=filled;
+        color=lightgrey;
+        node [style=filled,color=white];
+        label="Segment computers (concepts)";
+
+  CSegment -> CConstSinglePassRange
+ 
+  CSegment -> "boost::DefaultConstructible"
+  CSegment -> "boost::CopyConstructible"
+  CSegment -> "boost::Assignable"
+  CSegment -> "boost::EqualityComparable"
+
+  CSegmentFactory
+
+  CForwardSegmentComputer -> CSegment
+  CForwardSegmentComputer -> CSegmentFactory
+
+  CBidirectionalSegmentComputer -> CForwardSegmentComputer
+
+  CDynamicSegmentComputer -> CForwardSegmentComputer
+
+  CDynamicBidirectionalSegmentComputer -> CDynamicSegmentComputer
+  CDynamicBidirectionalSegmentComputer -> CBidirectionalSegmentComputer
+    }
+
+
+
+    }
+
+
+    subgraph clusterModels {
+	      rank = same;
+        style=invis;
+
+    subgraph clusterSCModels {
+        style=filled;
+        color="#ccffcc";
+        node [style=filled,color=white];
+        label="Segment computers (models)";
+
+        GeometricalDSS -> CBidirectionalSegmentComputer
+        GeometricalDCA -> CBidirectionalSegmentComputer
+        ArithmeticalDSS3d -> CBidirectionalSegmentComputer
+
+        ArithmeticalDSS -> CDynamicBidirectionalSegmentComputer
+        CombinatorialDSS -> CDynamicBidirectionalSegmentComputer
+
+
+    }
+
+    subgraph clusterSModels {
+        style=filled;
+        color="#ccffcc";
+        node [style=filled,color=white];
+        label="Segmentations (models)";
+
+        GreedySegmentation -> CSegmentation
+        GreedySegmentation -> CIncrementalSegmentComputer [label="requires",style=dashed];
+
+        SaturatedSegmentation -> CSegmentation
+        SaturatedSegmentation -> CForwardSegmentComputer [label="requires",style=dashed];
+
+    }
+
+    }
+}
+
