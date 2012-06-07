@@ -242,18 +242,17 @@
        
    \end{alertblock}
 
-  \begin{alertblock}{\centering Math Package\HH}
+ \begin{alertblock}{\centering Arithmetic Package\HH}
     \footnotesize
     \begin{itemize}
-    \item Integer, BigInteger (arbitrary precision)
-    \item Number traits
-    \item Arithmetic (models of irreducible fractions,...)
-    \item Model to represent/parse polynoms
-    \item Basic linear algebra
+  \item  Fractions
+  \item Irreducible fractions 
+\item DSS Pattern..
     \item \ldots
     \end{itemize}
   \end{alertblock}
 
+  
 \end{frame}
 
 
@@ -279,6 +278,13 @@
     \item Volumetric analysis: area/volume, distance transforms,
       reverse distance transforms, Fast-marching methods.
     \item Implicit/parametric shape generator for multigrid analysis
+    \end{itemize}
+  \end{alertblock}
+\begin{alertblock}{\centering Math Package\HH}
+    \footnotesize
+    \begin{itemize}
+    \item Representation of polynoms
+    \item \ldots
     \end{itemize}
   \end{alertblock}
 \end{frame}
@@ -391,8 +397,8 @@
     typedef Space3::Point Point;
     typedef HyperRectDomain<Space> Domain;
     
-    Point p(12, -34,0,1);
-    Point q(2, -2, -1,3);
+    Point p(12, -34,0);
+    Point q(2, -2, -1);
     if (p < q)
       ...
     
@@ -413,8 +419,8 @@ or even simpler with standard definitions:
     #include "DGtal/base/Common.h"
     #include "DGtal/helpers/StdDefs.h"
     ...
-    DGtal::Z3i::Point p(12, -34,0,1);
-    DGtal::Z3i::Point q(2, -2, -1,3);
+    DGtal::Z3i::Point p(12, -34,0);
+    DGtal::Z3i::Point q(2, -2, -1);
     if (p < q)
       ...
     
@@ -443,7 +449,7 @@ Things to do
   typedef DGtal::int32_t Integer;
   typedef DGtal::SpaceND<6, Integer> Space6;
   
-  typedef mpz_class IntegerGMP;
+  typedef mpz_class IntegerGMP;  //mpz_class == DGtal::BigInteger
   typedef DGtal::SpaceND<6, IntegerGMP> Space6GMP;
 \end{lstlisting}
 
