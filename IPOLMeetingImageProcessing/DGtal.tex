@@ -29,12 +29,13 @@ ${}^2$ LAMA (UMR CNRS 5127), Universit\'{e} de Savoie, F-73376\\
 DGtal is a generic open source library for Digital Geometry
 programming for which the main objective is to structure different
 developments from the digital geometry and topology community. The
-aims are numerous: make easier the appropriation of our tools for a
-neophyte (new PhD students, researchers from other topics, …), permit
-better comparisons from new methods with already existing approaches
-and to construct a federative project. Another objective of DGtal is
-to simplify the construction of demonstration tools to share new
-results and potential efficiency of the proposed work.
+aims are numerous: to make easier the appropriation of our tools for a
+neophyte (new PhD students, researchers from other topics, …), to
+allow better comparisons from new methods with already existing
+approaches and to construct a federative project. Another objective of
+DGtal is to simplify the construction of demonstration tools to share
+new results with others as well as illustrate the potential efficiency
+of proposed works.
 
 \section*{Overview}
 
@@ -71,11 +72,18 @@ Hence, \DGtal package decomposition follows these principles:
 
 
   \item[Topology Package]: This package contains core concepts,
-    objects and methods which are used in other higher level
-    packages. For example, it defines number types considered in
-    DGtal, fundamental structures such as the digital space in
-    arbitrary dimension, the digital domain, as well as basic linear
-    algebra tools.
+    objects and methods which are used in other higher level packages.
+    For example, it contains the classical topology tools (à la
+    Rosenfeld), cartesian cellular topology, and digital surface
+    topology (à la Herman). Generic tools and methods are provided for
+    extracting connected components, identifying simple points,
+    determining the neighborhood over a digital surface, tracking the
+    boundary of a shape, defining cells and incidence
+    operations. High-level classes are provided so that one can
+    represent various types of surfaces and navigate onto them to
+    navigate onto them with a common interface.  This package is
+    notably used by the geometry package, especially to define curves
+    and surfaces.
 
   \item[Geometry Package]: This package contains geometry related
     concepts, models and algorithms. It provides a generic framework
