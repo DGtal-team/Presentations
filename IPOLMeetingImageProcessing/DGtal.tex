@@ -2,6 +2,9 @@
 \documentclass[11pt, a4paper]{article}
 \usepackage{a4wide}
 
+\usepackage{color}
+\usepackage{listings}
+\usepackage{subfigure}
 % this is just a default list of packages, feel free to add any
 % (standard) package you need
 \usepackage{amssymb,amsmath}
@@ -11,14 +14,42 @@
 \usepackage{graphicx}
 
 
+
+\lstset{ language=[Visual]C++,
+	keywordstyle=\bfseries\ttfamily\color[rgb]{0,0,1},
+	identifierstyle=\ttfamily,
+	commentstyle=\color[rgb]{0.133,0.645,0.133}\textit,
+	stringstyle=\ttfamily\color[rgb]{0.627,0.126,0.941},
+	showstringspaces=false,
+	basicstyle=\ttfamily,
+	numberstyle=\color[rgb]{0.2,0.2,0.2}\tiny\ttfamily,
+	numbers=left,
+	stepnumber=1,
+        frame=single,
+        framexleftmargin=13mm, 
+        xleftmargin=12mm,
+	numbersep=10pt,
+	tabsize=2,
+	breaklines=true,
+	prebreak = \raisebox{0ex}[0ex][0ex]{\ensuremath{\hookleftarrow}},
+	breakatwhitespace=false,
+	aboveskip={1.5\baselineskip},
+  columns=fixed,
+  upquote=true,
+  extendedchars=true
+}
+
+\graphicspath{{./../SlidesIntroDGtalMeeting2012/Images/}}
+
 \def\DGtal{\texttt{DGtal} }
 \date{}
 % use the speaker names as authors of this document,
 % this will help the audience identify the speakers
 % use the software name as the title of this document
-\title{\DGtal: Digital Geometry Tools and Algorithms Library}
+\title{\includegraphics[width=0.2\textwidth]{dgtal-logo}:
+  Digital Geometry Tools and Algorithms Library\\
+\url{http://liris.cnrs.fr/dgtal}}
 \author{David Coeurjolly$^1$ \qquad \qquad Jacques-Olivier Lachaud$^2$ \\
-  (For the DGtal Team)\\
 ${}^1$ LIRIS (UMR CNRS 5205), Universit\'{e} de Lyon, F-69622 \\
 ${}^2$ LAMA (UMR CNRS 5127), Universit\'{e} de Savoie, F-73376\\
 }
@@ -51,7 +82,6 @@ fundamental theorems in mathematics (arithmetic, geometry, topology,
 \ldots), discrete mathematics (word theory, combinatorics, graph
 theory,\ldots) or computer science (algorithmic, image processing,
 \ldots).
-
 Hence, \DGtal package decomposition follows these principles:
 \begin{description}
   \item[Kernel Package]: This package contains core concepts, objects
@@ -80,10 +110,9 @@ Hence, \DGtal package decomposition follows these principles:
     determining the neighborhood over a digital surface, tracking the
     boundary of a shape, defining cells and incidence
     operations. High-level classes are provided so that one can
-    represent various types of surfaces and navigate onto them to
-    navigate onto them with a common interface.  This package is
-    notably used by the geometry package, especially to define curves
-    and surfaces.
+    represent various types of surfaces and navigate onto them with a
+    common interface.  This package is notably used by the geometry
+    package, especially to define curves and surfaces.
 
   \item[Geometry Package]: This package contains geometry related
     concepts, models and algorithms. It provides a generic framework
@@ -113,29 +142,121 @@ Hence, \DGtal package decomposition follows these principles:
   \item[Mathematical Package]: This package gathers various
     mathematical subpackages and modules. For now, it consists in a
     module for defining multivariate polynomials.
-
-
-
 \end{description}
 
+\section*{Implementation Design}
 
-\section*{Key Features}
-
-\section*{Implementation details}
- 
 On a more technical level, DGtal is developed in C++. Similarly to
 other classical libraries such as CGAL, it follows the paradigm of
 genericity with efficiency. This approach is made possible with the
-now well-known notion of concepts, implemented with templated types.
-
+now well-known notion of concepts, implemented with template types.
+More precisely, we use The Boost Concept Check Library (BCCL) to
+describe concepts in the C++ language. Furthermore, we use
+\texttt{BOOST\_CONCEPT\_ASSERT} macros to check if a type
+given as template parameter of a class respect a concept (and is thus
+a model of this concept) at compile time. 
 
 
 \section*{Examples}
+We give here couple of \DGtal examples and figures to illustrate the
+design and some features of the library. First of all, let us define a
+digital space in dimension 4 in which we will consider the commutative
+ring associated to \texttt{DGtal::int32\_t} to approximate
+computations on $\mathbb{Z}$. On this space, we consider a domain
+defined as the hyper-rectangular domain constructed on two points of
+the space. Similarly to many template based C++ code, we start by a
+series of type definitions before instancing the objects:
 
-We would like to receive these 4 pages before Sunday 24th to have
-enough time for printing.
+{\scriptsize \begin{lstlisting}
+    #include "DGtal/base/Common.h"
+    #include "DGtal/kernel/SpaceND.h"
+    #include "DGtal/kernel/domains/HyperRectDomain.h"
+    ...
+    typedef DGtal::int32_t Integer;
+    typedef DGtal::SpaceND<4, Integer> Space4;
+    typedef Space4::Point Point;
+    typedef HyperRectDomain<Space> Domain;
+    
+    Point p(12, -34,0, 3);
+    Point q(2, -2, -1, 19);
+    if (p < q)
+      ...
+    
+    Domain box(p,q);
+    ....
 
-\section*{Team \& Project Management}
+  \end{lstlisting}
+}
+By design, if we finally want to use an exact representation of
+integer numbers (provided by the GMP - Gnu Multiprecision Arithmetic
+Library for instance), we just have to change the first typedef and
+the rest of the code would remain the same. Using the concept
+programing paradigm, \DGtal algorithms which use integer numbers first
+check that the given type is a model of the concept
+\texttt{CCommutativeRing} (both \texttt{DGtal::int32\_t} and GMP integers are
+models of this concept). Once the digital space and the arithmetic
+have been set, we can use higher level structures and algorithms to
+perform geometrical and topological analysis on digital objects (cf figure).
 
+
+\begin{figure}
+  \begin{center}
+    \subfigure[Level set extraction from an
+      image]{\includegraphics[width=4cm]{contourS1}}~~
+    \subfigure[Contour extraction in 2D using a topological cellular
+      model]{\includegraphics[width=4cm]{fcExtraction1-150x150}}~~
+    \subfigure[Digital surface extraction and tracking in
+      3D]{\includegraphics[width=5cm]{surfelTracking}}
+
+    \subfigure[Normal vector computation on object
+      surface]{\includegraphics[width=5.5cm]{normal}}~~ 
+    \subfigure[Digital curve analysis using digital circular arc
+      covering]{\includegraphics[width=7cm]{geomDCA-1024x272}}~~ 
+
+  \subfigure[Multigrid shape definition for differential estimator
+    evaluation]{\includegraphics[width=5cm]{shapes}}~~ 
+    \subfigure[Volumetric Analysis with Distance
+      transformation]{\includegraphics[width=4cm]{AlCaponeDistanceMap}} 
+  \end{center} 
+\end{figure}
+
+
+
+ 
+
+
+
+\section*{Project Management \& Team}
+
+\DGtal uses a github project
+(\url{https://github.com/DGtal-team/DGtal})  to host the code
+(using \texttt{git} as control version system) and to list open/closed
+issues. The documentation is managed by \texttt{doxygen} (both user-guides and
+technical documentation). 
+The \DGtal project is composed of several sub-projects:
+\begin{description}
+  \item[{DGtal}:] the main library (classes + unit tests + example programs
+    + documentation files)
+\item[{DGtalTools}:] command line tools built using DGtal (multigrid shape generators,
+    contour analyzers, file format converter,...)
+\item[{DGtalScripts}:] scripts for developers,  class skeletons,...  
+\end{description}
+In order to follow and manage \DGtal developments, several
+\emph{groups} have been identified. The \textbf{Editorial Board}
+prepares releases, organises DGtal meetings, (\emph{David Coeurjolly,
+  Jacques-Olivier Lachaud}). The \textbf{Package Managers} are
+in-charge of the package design (main concepts, relationships with
+other packages\ldots), and organise and check package contributions
+(aka modules). Finally \textbf{Contributors} adds new features to
+DGtal (classes + concept + test
+      files + documentation) as a new module in a DGtal package.
+\begin{center}
+  \includegraphics[width=1.8cm]{liris-logo}~~~~~
+  \includegraphics[width=1.8cm]{lama-logo}~~~~~
+  \includegraphics[width=1.8cm]{loria-logo_new}~~~~~
+  \includegraphics[width=1.8cm]{greyc-logo}~~~~~
+  \includegraphics[width=1.8cm]{gipsa-logo}~~~~~
+  \includegraphics[width=1.8cm]{irccyn_transparent}
+\end{center}
 
 \end{document}
