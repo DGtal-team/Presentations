@@ -81,7 +81,7 @@
 \usepackage{beamerthemeliris2}
 \useoutertheme{smoothbars}
 
-\title[DGtal Meeting 2012]{Introduction to  DGtal and its Concepts}
+\title[IPOL 2012 Meeting on Image Processing Libraries]{Introduction to  DGtal and its Concepts}
 \subtitle{\url{http://liris.cnrs.fr/dgtal}}
 
 %\author{D. Coeurjolly}
@@ -132,9 +132,11 @@
 %------------------------------------------------------------------------------
 \begin{frame}%[allowframebreaks]
   \frametitle{DGtal: why, who}
+    \begin{alertblock}{} 
+    \centering \large \alert{Digital Geometry}
+  \end{alertblock}
   
-  \small
-  \begin{block}{Objectives}
+\begin{block}{Objectives}
     \small
     \begin{itemize}
     \item to make digital geometry easier for the neophyte (student,
@@ -146,28 +148,6 @@
     \end{itemize}
   \end{block}
   
-\alert{$\Rightarrow$ Federative Project}
-  
-  \small
-  \begin{block}{Who ? (for now) \ldots}
-    \small
-    \begin{columns}
-      \begin{column}{0.45\textwidth}
-        \begin{itemize}
-        \item LIRIS (Lyon)      
-        \item Gipsa-lab (Grenoble)
-        \item GREYC (Caen)
-        \end{itemize}
-      \end{column}
-      \begin{column}{0.45\textwidth}
-        \begin{itemize}
-        \item LAMA (Chambéry)
-        \item LORIA (Nancy)
-        \item IRCCyn (Nantes)
-        \end{itemize}
-      \end{column}
-    \end{columns}
-  \end{block}
 \end{frame}
 %------------------------------------------------------------------------------
 
@@ -264,9 +244,9 @@
     \small
        \begin{itemize}
     \item Digital Topology: connectedness, border, simple points
-      (\emph{a la} Rosenfeld)
+      (\emph{\'a la} Rosenfeld)
     \item Cartesian Cellular Topology: cells,  surfaces and contours
-      (\emph{a la} Herman), tracking algorithms
+      (\emph{\'a la} Herman), tracking algorithms
     \item Digital Surface concepts and models
     \end{itemize}
   \end{alertblock}
@@ -326,11 +306,6 @@
 \end{itemize}
   
 \end{frame}
-
-%------------------------------------------------------------------------------
-\input{./team}
-%-%% -----------------------------------------------------------------------------
-
 
 
 \lstset{ language=[Visual]C++,
@@ -488,10 +463,18 @@ Concept Checking  with {\tt boost}
   BOOST_CONCEPT_ASSERT(( CCommutativeRing<TInteger> ) );
   ...
 \end{lstlisting}
-
-
-
 \end{frame}
+
+
+
+
+\begin{frame}
+\frametitle{Example using Image concepts}
+  \centering \includegraphics[width=12cm]{snapshot-image}
+\end{frame}
+
+
+
 \begin{frame}
   \centering \includegraphics[width=12cm]{snapshot}
 \end{frame}
@@ -537,100 +520,9 @@ Concept Checking  with {\tt boost}
 
 \end{frame}
 
-\begin{frame}
-\frametitle{Example using Image concepts}
-  \centering \includegraphics[width=12cm]{snapshot-image}
-\end{frame}
-
-
-\begin{frame}[containsverbatim]
-  \frametitle{Image vs. ImageContainers}
-
-  
-\begin{lstlisting}
-  #include "DGtal/base/Common.h"
-  #include "DGtal/helpers/StdDefs.h"
-  {...}
-  using namespace DGtal;
-
-  typedef double Value; 
-  typedef ImageContainerBySTLVector<Z3i::Domain, Value> ImageContainer;
-  typedef Image<ImageContainer> LightImage;
-
-  Z3i::Point p(0,0,0),q(100,100,100);
-  Z3i::Domain domain(p,q);
-  
-  LightImage myImage ( new ImageContainer(domain) );
-  
-  myImage.setValue( Z3i::Point(42,42,42) , 42 );
-  
-  Value b  = myImage( Z3i::Point(42,42,42) ); //b == 42;)
-
-  LightImage myImage2 = myImage;  //Nothing copied in memory (CopyOnWrite)
-
-  myImage2.setValue( Z3i::Point(1,1,1), 1) ; //ok, copying now..
-
-\end{lstlisting}
-\end{frame}
-
-\begin{frame}[containsverbatim]
-  \frametitle{Iterating on image values}
-Key concept: CxxxRange
-\begin{lstlisting}
-  ...
-  LightImage myImage ( new ImageContainer(domain) );
-  typedef LightImage::Range::Iterator Iterator;
-  typedef LightImage::Domain::ConstIterator DomainConstIterator;
-
-
-  //Setting values iterating on the domain points
-  for(DomainConstIterator it = myImage.domain().begin(), itend = myImage.domain().end();
-      it != itend; ++it)
-    myImage.setValue( *it , 42 );  // (*it) is a Point
-    
-
-  //Fast init of the image using container built-in iterator 
-  for(Iterator it = myImage.range().begin(), itend = myImage.range().end();
-      it != itend; ++it)
-    *it =  42 ; // (*it) is a container cell
-\end{lstlisting}
-
-Image::Range (R/W bidirectional range), Image::ConstRange (Read-only
-bidirectional const range), ...
-
-\begin{alertblock}{}\small
-  \alert{Switching from \texttt{ImageContainerBySTLVector} to
-    \texttt{ImageContainerBySTLMap} won't change your code  ! (just the
-    performances)}
-\end{alertblock}
-\end{frame}
-
-
-
-%% %------------------------------------------------------------------------------
-\begin{frame}
-  \frametitle{DGtal Meeting Program}
-  
-  \begin{itemize}
-  \item 9h30: Introduction to DGtal and its concepts
-  \item 10h00: Digital Surfaces in DGtal
-  \item 10h30: Irreducible fractions, patterns and straightness in DGtal
-    
-  \item 11h00: <Coffee break>
-    
-  \item 11h20: Representation and analysis of digital curves
-   \item 11h50: DGtal boards and viewers
-   \item 12h20: DGtal \& DGtalTools project management
-   \item 12h50: Visit of the IVC Research team
-     
-   \item 13h10: <Lunch>
-     
-   \item 14h30: Feedback on my DGtal Experience (Isabelle Sivignon)
-   \item 15h00: Install party, use-case discussions, future plans,...
-  \end{itemize}
- \end{frame}
-
-
+%------------------------------------------------------------------------------
+\input{./team}
+%-%% -----------------------------------------------------------------------------
 
 \end{document}
 
