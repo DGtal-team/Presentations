@@ -301,8 +301,7 @@
 \item 200k lines of code
 \item $env.$ 557 C++ classes 
 \item Used in couple of research projects (ANR digitalSnow,
-  collaboration with Chemical lab in Lyon, collaboration with
-  Agricultural in Nancy,... )
+  collaboration with Chemical lab in Lyon, collaboration INRA  at Nancy,... )
 \end{itemize}
   
 \end{frame}
@@ -353,7 +352,7 @@
   \item At design level: very helpful to enhance separability
     data/algorithms
   \item At implementation level: concept checking tools to verify that
-    a given type validate a concept
+    a given type validates a concept
   \end{itemize}
 \end{exampleblock}
 \end{frame}
@@ -370,7 +369,7 @@
     typedef DGtal::int32_t Integer;
     typedef DGtal::SpaceND<3, Integer> Space3;
     typedef Space3::Point Point;
-    typedef HyperRectDomain<Space> Domain;
+    typedef HyperRectDomain<Space3> Domain;
     
     Point p(12, -34,0);
     Point q(2, -2, -1);
