@@ -1,0 +1,151 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% BEAMER STYLE FOR DGTAL POSTER %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\definecolor{DGtalgrey}{RGB}{179,179,179}
+\definecolor{DGtaldarkred}{RGB}{194,3,28}
+
+
+
+
+\ProcessOptionsBeamer
+\mode<presentation>
+
+
+\setbeamercolor*{palette quaternary}{fg=black,bg=DGtalgrey} % main title color
+\setbeamercolor{titlelike}{parent=palette quaternary}
+\setbeamercolor{section in toc}{fg=black}
+\setbeamercolor{normal text}{fg=black}
+\setbeamercolor{item}{fg=black}
+
+\setbeamersize{text margin left=0.036\paperwidth}
+\setbeamersize{text margin right=0.036\paperwidth}
+
+
+\setbeamercolor*{block body}{bg=DGtalgrey!10} 
+\setbeamercolor*{block title}{fg=black, bg=DGtalgrey}
+\setbeamerfont*{block title}{series=\bfseries,size=\large}
+
+
+\setbeamercolor*{block body alerted}{bg=DGtaldarkred!10}
+\setbeamercolor*{block body example}{bg=green!10}
+\setbeamercolor*{block title alerted}{fg=black, bg=DGtaldarkred!50}
+\setbeamercolor*{block title example}{fg=white, bg=green!70!black}
+
+
+
+
+\useitemizeitemtemplate{
+    {\tiny{\raise1.5pt\hbox{\footnotesize{$\blacksquare$}}}}
+}
+
+\usebackgroundtemplate{%
+ \vbox to \paperheight{\vfil\hbox to \paperwidth{\hfil\includegraphics[width=\paperwidth]{DGtalLogoFond2}\hfil}\vfil}
+}
+
+
+\defbeamertemplate*{block begin}{}
+                   {
+  \newdimen\newlinewidth
+  \newlinewidth=\linewidth
+  \advance\newlinewidth by -1em
+  \par\vskip\medskipamount
+
+  \begin{beamercolorbox}{block title}
+    \begin{center}
+      \begin{minipage}{\newlinewidth}
+        \centering
+        \usebeamerfont*{block title}
+        \insertblocktitle
+      \end{minipage}
+    \end{center}
+  \end{beamercolorbox}
+
+  %\ifbeamercolorempty[bg]{block title}
+  %{}
+  %{\ifbeamercolorempty[bg]{block body}{}{\nointerlineskip\vskip-0.5pt}}
+  \usebeamerfont{block body}
+  \begin{beamercolorbox}[vmode]{block body}
+    \ifbeamercolorempty[bg]{block body}{\vskip-.25ex}{\vskip-.75ex}\vbox{}
+    \vspace{1ex}
+    \begin{center}
+      \begin{minipage}{\newlinewidth}
+}
+
+\defbeamertemplate*{block end}{}  
+{
+      \end{minipage}
+    \end{center}
+    \vspace{1ex}
+  \end{beamercolorbox}\vskip\smallskipamount
+}
+
+
+\defbeamertemplate*{block example begin}{}
+{
+  \newdimen\newlinewidth
+  \newlinewidth=\linewidth
+  \advance\newlinewidth by -1em
+  \par\vskip\medskipamount
+
+  \begin{beamercolorbox}{block title example}
+    \begin{center}
+      \begin{minipage}{\newlinewidth}
+        \centering
+        \usebeamerfont*{block title example}
+        \insertblocktitle
+      \end{minipage}
+    \end{center}
+  \end{beamercolorbox}
+
+  \ifbeamercolorempty[bg]{block title example}
+  {}
+  {\ifbeamercolorempty[bg]{block body example}{}{\nointerlineskip\vskip-0.5pt}}
+  \usebeamerfont{block body}
+  \begin{beamercolorbox}[vmode]{block body example}
+    \ifbeamercolorempty[bg]{block body example}{\vskip-.25ex}{\vskip-.75ex}\vbox{}
+    \vspace{1ex}
+    \begin{center}
+      \begin{minipage}{\newlinewidth}
+}
+
+\defbeamertemplate*{block example end}{}  
+{
+      \end{minipage}
+    \end{center}
+    \vspace{1ex}
+  \end{beamercolorbox}\vskip\smallskipamount
+}
+
+
+
+
+
+%% set block transparency
+%\addtobeamertemplate{block begin}{\pgfsetfillopacity{0.7}}{\pgfsetfillopacity{0.8}}
+%%\addtobeamertemplate{block begin}{\pgfsetfillopacity{0.7}}{\pgfsetfillopacity{0.8}}
+%\addtobeamertemplate{block alerted begin}{\pgfsetfillopacity{0.7}}{\pgfsetfillopacity{0.8}}
+%\addtobeamertemplate{block example begin}{\pgfsetfillopacity{0.7}}{\pgfsetfillopacity{0.8}}
+
+
+\defbeamertemplate*{title page}{gipsa}[1][]
+                   {
+  \newdimen\sidemargin
+  \sidemargin=\linewidth
+  \advance\sidemargin by -0.544\paperwidth
+  \divide\sidemargin by 2
+  \vspace{0.018\paperwidth}
+  \hspace{\sidemargin}
+  \begin{beamercolorbox}[wd=0.544\paperwidth,sep=1ex,center]{title}
+    \usebeamerfont{title}\textbf{\LARGE \inserttitle}\par
+  \end{beamercolorbox}
+  \begin{beamercolorbox}[sep=8pt,center]{institute}
+    \usebeamerfont{institute}
+    \large
+    \insertinstitute
+  \end{beamercolorbox}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
