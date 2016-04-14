@@ -35,6 +35,17 @@ body {
   line-height: 1.3;
   font-weight: inherit; }
 
+
+  .reveal .slide-background.present{
+
+    opacity: 0.6;
+   }
+
+     .reveal div.slide-background.noop.present{
+
+       opacity: 1.0;
+      }
+
 /*********************************************
  * HEADERS
  *********************************************/
@@ -103,6 +114,7 @@ body {
   list-style-type: decimal; }
 
 .reveal ul {
+  font-size: 85%;
   list-style-type: disc; }
 
 .reveal ul ul {
@@ -269,7 +281,7 @@ body {
  *********************************************/
 .reveal section img {
   /*margin: 15px 0px;*/
-  background: rgba(255, 255, 255, 0.12);
+  /*background: rgba(255, 255, 255, 0.12);*/
  /*  border: 4px solid #657b83;*/
   box-shadow: 0 0 0px rgba(0, 0, 0, 0.0); }
 
